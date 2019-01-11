@@ -19,20 +19,19 @@ public class MpC
 			text = reader.toString();
 			
 			if(!text.isEmpty()) {
-				System.out.println("The file read follows:");
-				Scanner scanner = new Scanner(reader);
-				Token currentToken;
-				currentToken = scanner.scan();
-				while (currentToken.getType() != Token.EOF) {
-					System.out.println(currentToken.toString());
-					currentToken = scanner.scan();
-				}
+//				System.out.println("The file read follows:");
+//				Scanner scanner = new Scanner(reader);
+//				Token currentToken;
+//				currentToken = scanner.scan();
+//				while (currentToken.getType() != Token.EOF) {
+//					System.out.println(currentToken.toString());
+//					currentToken = scanner.scan();
+//				}
 				
-				/*
-				//System.out.println(text);
+				
+//				System.out.println(text);
 				Parser parser = new Parser(reader);
 				parser.parse();
-				*/
 			}
 			else {
 				System.out.println("The file read was empty.");

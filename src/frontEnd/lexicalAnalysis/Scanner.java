@@ -96,10 +96,18 @@ public class Scanner {
 			return false;
 	}
 	private boolean isGraphic (char c) { 	//	Verifica se é qualquer caracter gráfico
-		if (c < ' ')
+		if (c < TextFileReader.UTF8_SPACE ||
+				(c >= '\u007F' && c <= '\u009F')) 
 			return false;
 		else
 			return true;
+	}
+	private boolean isControl (char c) { 	//	Verifica se é qualquer caracter gráfico
+		if (c < TextFileReader.UTF8_SPACE ||
+				(c >= '\u007F' && c <= '\u009F')) 
+			return true;
+		else
+			return false;
 	}
 	private boolean isEOF(char c) { // Quando o TextFileReader (BufferedReader) chega no final do arquivo ele retorna esse caracter
 		return (c == (char) -1);
@@ -109,10 +117,11 @@ public class Scanner {
 		switch (getCurrentChar()) {
 			case '!':
 				take();
-				while (isGraphic(getCurrentChar()))	// Ignorar caractere gráfico
+//				while (isGraphic(getCurrentChar()) || getCurrentChar() == '\t')	// Ignorar caractere gráfico
+				while (getCurrentChar() != '\n')	// Vai até a quebra de linha
 					take();
-			break;
-			case ' ': case '﻿': case '\t': case '\r': case '\n' :
+			case ' ': case '﻿': case '\t': case '\r': case '\n' : case '\u0088' : case '\u0089' :
+			case '\u008A' : case '\u000B' : 
 				take();
 			default:
 				// O padrão é dar erro? 

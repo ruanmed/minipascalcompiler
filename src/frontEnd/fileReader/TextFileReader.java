@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 public class TextFileReader {
 	BufferedReader text;
 	public static final String UTF8_BOM = "\uFEFF";
+	public static final char UTF8_SPACE = '\u0020';
 	public TextFileReader(String path) {
 		System.out.println("The path read is -->"+path);
 		try  {
