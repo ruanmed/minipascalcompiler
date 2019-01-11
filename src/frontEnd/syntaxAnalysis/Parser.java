@@ -38,9 +38,7 @@ public class Parser {
 		accept(Token.OPATTRIB);
 		parseExpressão();
 	}
-	private void parseBoolLit() {	//	<bool-lit> ::= 
-									//		true 
-									//		| false
+	private void parseBoolLit() {	//	<bool-lit> ::= true | false
 		if (currentToken.getType() == Token.TRUE)
 			accept();
 		else if (currentToken.getType() == Token.FALSE)
@@ -55,76 +53,48 @@ public class Parser {
 					);
 		}
 	}
-	private void parseChamadaDeFunção() {	//	<chamada-de-função> ::= 
-											//		id "(" ( <lista-de-expressões> | <vazio> ) ")"
-		accept(Token.ID);
-		accept(Token.LPARENTHESIS);
-											//	first1( <lista-de-expressões> ) = {id, true, false, int-lit, float-lit, "(" }
-		if (	currentToken.getType() == Token.ID || currentToken.getType() == Token.TRUE ||
-				currentToken.getType() == Token.FALSE || currentToken.getType() == Token.INTLITERAL || 
-				currentToken.getType() == Token.FLOATLITERAL || currentToken.getType() == Token.LPARENTHESIS
-				)
-			accept();
-											//	follow1( ( <lista-de-expressões> | <vazio> ) ) = { “)” }
-		else if (currentToken.getType() == Token.RPARENTHESIS) 
-			accept();
-		else {
-			System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
-					"] (token type " + currentToken.getType() + "), in line " + currentToken.getLine() + 
-					" column "+ currentToken.getColumn() + 
-					", while it was expected either a(n) \"" + 
-					Token.spellings[Token.TRUE] + "\" (token type " + Token.TRUE + ") or \"" +
-					Token.spellings[Token.FALSE] + "\" (token type " + Token.FALSE + ")." 
-					);
-		}
-	}
-	private void parseChamadaDeProcedimento() {	//	<chamada-de-procedimento> ::= 
-												//		id "(" ( <lista-de-expressões> | <vazio> ) ")"
-		accept(Token.ID);
-		accept(Token.LPARENTHESIS);
-												//	first1( <lista-de-expressões> ) = {id, true, false, int-lit, float-lit, "(" }
-		if (	currentToken.getType() == Token.ID || currentToken.getType() == Token.TRUE ||
-				currentToken.getType() == Token.FALSE || currentToken.getType() == Token.INTLITERAL ||
-				currentToken.getType() == Token.FLOATLITERAL || currentToken.getType() == Token.LPARENTHESIS
-				)
-			accept();
-												//	follow1( ( <lista-de-expressões> | <vazio> ) ) = { “)” }
-		accept(Token.RPARENTHESIS);	
-	}
-	private void parseComando() {	//	<comando> ::= 
-									//		id ( <seletor> := <expressão> | "(" ( <lista-de-expressões> | <vazio> ) ")" )
+//	private void parseChamadaDeFunção() {	//	<chamada-de-função> ::= 
+//											//		id "(" ( <lista-de-expressões> | <vazio> ) ")"
+//		accept(Token.ID);
+//		accept(Token.LPARENTHESIS);
+//											//	first1( <lista-de-expressões> ) = {id, true, false, int-lit, float-lit, "(" }
+//		if (	currentToken.getType() == Token.ID || currentToken.getType() == Token.TRUE ||
+//				currentToken.getType() == Token.FALSE || currentToken.getType() == Token.INTLITERAL || 
+//				currentToken.getType() == Token.FLOATLITERAL || currentToken.getType() == Token.LPARENTHESIS
+//				)
+//			accept();
+//											//	follow1( ( <lista-de-expressões> | <vazio> ) ) = { “)” }
+//		else if (currentToken.getType() == Token.RPARENTHESIS) 
+//			accept();
+//		else {
+//			System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
+//					"] (token type " + currentToken.getType() + "), in line " + currentToken.getLine() + 
+//					" column "+ currentToken.getColumn() + 
+//					", while it was expected either a(n) \"" + 
+//					Token.spellings[Token.TRUE] + "\" (token type " + Token.TRUE + ") or \"" +
+//					Token.spellings[Token.FALSE] + "\" (token type " + Token.FALSE + ")." 
+//					);
+//		}
+//	}
+//	private void parseChamadaDeProcedimento() {	//	<chamada-de-procedimento> ::= 
+//												//		id "(" ( <lista-de-expressões> | <vazio> ) ")"
+//		accept(Token.ID);
+//		accept(Token.LPARENTHESIS);
+//												//	first1( <lista-de-expressões> ) = {id, true, false, int-lit, float-lit, "(" }
+//		if (	currentToken.getType() == Token.ID || currentToken.getType() == Token.TRUE ||
+//				currentToken.getType() == Token.FALSE || currentToken.getType() == Token.INTLITERAL ||
+//				currentToken.getType() == Token.FLOATLITERAL || currentToken.getType() == Token.LPARENTHESIS
+//				)
+//			accept();
+//												//	follow1( ( <lista-de-expressões> | <vazio> ) ) = { “)” }
+//		accept(Token.RPARENTHESIS);	
+//	}
+	private void parseComando() {	//	<comando> ::= <atribuição> 
 									//		| <condicional> 
 									//		| <iterativo> 
 									//		| <comando-composto>
 		if (currentToken.getType() == Token.ID) {
-			accept();
-			if (currentToken.getType() == Token.LBRACKET || currentToken.getType() == Token.OPATTRIB) {
-				parseSeletor();
-				accept(Token.OPATTRIB);
-				parseExpressão();
-			}
-			else if (currentToken.getType() == Token.LPARENTHESIS) {
-				accept();	
-									//	first1( <lista-de-expressões> ) = {id, true, false, int-lit, float-lit, "(" }
-				if (	currentToken.getType() == Token.ID || currentToken.getType() == Token.TRUE ||
-						currentToken.getType() == Token.FALSE || currentToken.getType() == Token.INTLITERAL ||
-						currentToken.getType() == Token.FLOATLITERAL || currentToken.getType() == Token.LPARENTHESIS
-						) 
-					parseListaDeExpressões();
-					
-									//	follow1( ( <lista-de-expressões> | <vazio> ) ) = { ")" }
-				accept(Token.RPARENTHESIS);	
-			}
-			else {
-				System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
-						"] (token type " + currentToken.getType() + "), in line " + currentToken.getLine() + 
-						" column "+ currentToken.getColumn() + 
-						", while it was expected either a(n) \"" + 
-						Token.spellings[Token.LBRACKET] + "\" (token type " + Token.LBRACKET + "), \"" +
-						Token.spellings[Token.OPATTRIB] + "\" (token type " + Token.OPATTRIB + ") or \"" +
-						Token.spellings[Token.LPARENTHESIS] + "\" (token type " + Token.LPARENTHESIS + ")." 
-						);
-			}
+			parseAtribuição();
 		}
 		else if (currentToken.getType() == Token.IF)
 			parseCondicional();
@@ -245,23 +215,10 @@ public class Parser {
 			parseTermo();
 		}
 	}
-	private void parseFator() {	//	<fator> ::= 
-								//		id ( <seletor> | "("( <lista-de-expressões> | <vazio> ) ")" )
+	private void parseFator() {	//	<fator> ::= <variável> 
 								//		| <literal>  | "(" <expressão> ")" 
 		if (currentToken.getType() == Token.ID) {
-			accept();
-			if (currentToken.getType() == Token.LPARENTHESIS) {
-				accept();
-				if (	currentToken.getType() == Token.ID || currentToken.getType() == Token.TRUE 
-						|| currentToken.getType() == Token.FALSE || currentToken.getType() == Token.INTLITERAL  
-						|| currentToken.getType() == Token.FLOATLITERAL || currentToken.getType() == Token.LPARENTHESIS
-						) {
-					parseListaDeExpressões();
-				}
-				accept(Token.RPARENTHESIS);
-			}
-			else if (currentToken.getType() == Token.LBRACKET) // DÚVIDA NESSA REGRA <<<<<<-------
-				parseSeletor();
+			parseVariável();
 		}
 		else if (currentToken.getType() == Token.TRUE || currentToken.getType() == Token.FALSE 
 				|| currentToken.getType() == Token.INTLITERAL || currentToken.getType() == Token.FLOATLITERAL) {
@@ -286,47 +243,41 @@ public class Parser {
 					);
 		}
 	}
-	private void parseIterativo() {	//	<iterativo> ::= 
-									//		while <expressão> do <comando>
+	private void parseIterativo() {	//	<iterativo> ::= while <expressão> do <comando>
 		accept(Token.WHILE);
 		parseExpressão();
 		accept(Token.DO);
 		parseComando();
 	}
-	private void parseListaDeComandos() {	//	<lista-de-comandos> ::= 
-											//		( <comando> ; )*
+	private void parseListaDeComandos() {	//	<lista-de-comandos> ::= ( <comando> ; )*
 		while (currentToken.getType() == Token.ID || currentToken.getType() == Token.IF ||
 				currentToken.getType() == Token.WHILE || currentToken.getType() == Token.BEGIN) {
 			parseComando();
 			accept(Token.SEMICOLON);
 		}
 	}
-	private void parseListaDeExpressões() {	//	<lista-de-expressões> ::= 
-											//		<expressão> ( , <expressão> )*
+	private void parseListaDeExpressões() {	//	<lista-de-expressões> ::= <expressão> ( , <expressão> )*
 		parseExpressão();
 		while (currentToken.getType() == Token.COMMA) {
 			accept();
 			parseExpressão();
 		}
 	}
-	private void parseListaDeIds() {	//	<lista-de-ids> ::= 
-										//		id ( , id )*
+	private void parseListaDeIds() {	//	<lista-de-ids> ::= id ( , id )*
 		accept(Token.ID);
 		while (currentToken.getType() == Token.COMMA) {
 			accept();
 			accept(Token.ID);
 		}
 	}
-	private void parseListaDeParâmetros() {	//	<lista-de-parâmetros> ::= 
-											//		<parâmetros> ( ; <parâmetros> ) * 
+	private void parseListaDeParâmetros() {	//	<lista-de-parâmetros> ::= <parâmetros> ( ; <parâmetros> ) * 
 		parseParâmetros();
 		while (currentToken.getType() == Token.SEMICOLON) {
 			accept();
 			parseParâmetros();
 		}
 	}
-	private void parseLiteral() {	//	<literal> ::= 
-									//		<bool-lit> | int-lit | float-lit 
+	private void parseLiteral() {	//	<literal> ::= <bool-lit> | int-lit | float-lit 
 		if (currentToken.getType() == Token.TRUE || currentToken.getType() == Token.FALSE) 
 			parseBoolLit();
 		else if (currentToken.getType() == Token.INTLITERAL)
@@ -345,8 +296,7 @@ public class Parser {
 					);
 		}	
 	}
-	private void parseOpAd() {	// 	<op-ad> ::= 
-								//		+ | - | or
+	private void parseOpAd() {	// 	<op-ad> ::= + | - | or
 		switch(currentToken.getType()) {
 			case Token.OPSUM: case Token.OPSUB: case Token.OR:
 				accept();
@@ -362,8 +312,7 @@ public class Parser {
 						);
 		}		
 	}
-	private void parseOpMul() {	//	<op-mul> ::= 
-								//		*  | /  | and
+	private void parseOpMul() {	//	<op-mul> ::= *  | /  | and
 		switch(currentToken.getType()) {
 			case Token.OPMULT: case Token.OPDIV: case Token.AND:
 				accept();
@@ -379,8 +328,7 @@ public class Parser {
 						);
 		}		
 	}
-	private void parseOpRel() {	//	<op-rel> ::= 
-								//		<  | >  | <=  | >= | = | <>
+	private void parseOpRel() {	//	<op-rel> ::= <  | >  | <=  | >= | = | <>
 		switch(currentToken.getType()) {
 			case Token.OPLOWERTHN: case Token.OPGREATTHN: case Token.OPLOWOREQ: 
 			case Token.OPGREOREQ: case Token.OPEQUAL: case Token.OPDIFF:
@@ -410,8 +358,7 @@ public class Parser {
 		parseTipoSimples();
 	}
 	
-	private void parsePrograma() { 	// <programa> ::= 
-									//		program id ; <corpo> .
+	private void parsePrograma() { 	// <programa> ::= program id ; <corpo> .
 		accept(Token.PROGRAM);
 		accept(Token.ID);
 		accept(Token.SEMICOLON);
@@ -419,16 +366,14 @@ public class Parser {
 		accept(Token.DOT);
 	}
 	
-	private void parseSeletor() {	//	<seletor> ::= 
-									//		( [ <expressão> ] )*
+	private void parseSeletor() {	//	<seletor> ::= ( [ <expressão> ] )*
 		while(currentToken.getType() == Token.LBRACKET) {
 			accept();
 			parseExpressão();
 			accept(Token.RBRACKET);
 		}
 	}
-	private void parseTermo() {	//	<termo> ::= 
-								//		<fator> ( <op-mul> <fator> )*
+	private void parseTermo() {	//	<termo> ::= <fator> ( <op-mul> <fator> )*
 		parseFator();
 		while (currentToken.getType() == Token.OPMULT || currentToken.getType() == Token.OPDIV
 				|| currentToken.getType() == Token.AND) {
@@ -436,8 +381,7 @@ public class Parser {
 			parseFator();
 		}
 	}
-	private void parseTipo() {	//	<tipo> ::= 
-								//		<tipo-agregado> | <tipo-simples>
+	private void parseTipo() {	//	<tipo> ::= <tipo-agregado> | <tipo-simples>
 		if (currentToken.getType() == Token.ARRAY)
 			parseTipoAgregado();
 		else if (currentToken.getType() == Token.INTEGER || currentToken.getType() == Token.REAL
