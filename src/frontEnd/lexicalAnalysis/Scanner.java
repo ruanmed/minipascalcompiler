@@ -7,9 +7,9 @@ public class Scanner {
 	private int 			currentType;
 	private StringBuffer 	currentSpelling;
 	private TextFileReader 	fileText;
-	int						currentLine,currentColumn;
+	int						currentLine, currentColumn;
 		
-	public Scanner(TextFileReader fileText){
+	public Scanner(TextFileReader fileText) {
 		this.fileText = fileText;
 		setCurrentChar(fileText.getNextChar());
 		setCurrentType(0);
@@ -18,20 +18,16 @@ public class Scanner {
 		setCurrentColumn(2);	//	Começa na coluna 2 porque já foi feita a leitura de um caracter
 	}
 	
-	public void setCurrentLine(int currentLine) 
-	{
+	public void setCurrentLine(int currentLine) {
 		this.currentLine = currentLine;
 	}
-	public void setCurrentColumn(int currentColumn) 
-	{
+	public void setCurrentColumn(int currentColumn) {
 		this.currentColumn = currentColumn;
 	}
-	public int getCurrentLine() 
-	{
+	public int getCurrentLine() {
 		return this.currentLine;
 	}
-	public int getCurrentColumn() 
-	{
+	public int getCurrentColumn() {
 		return this.currentColumn;
 	}	
 	public char getCurrentChar() {
@@ -79,8 +75,7 @@ public class Scanner {
 		currentSpelling.append(getCurrentChar());
 		setCurrentChar(fileText.getNextChar());
 		
-		if(getCurrentChar()=='\n')	//quebra de linha
-		{
+		if(getCurrentChar()=='\n') { //quebra de linha
 			setCurrentLine(getCurrentLine()+1);
 			setCurrentColumn(1);
 		}
@@ -94,7 +89,6 @@ public class Scanner {
 		else
 			return false;
 	}
-	
 	private boolean isLetter (char c) {  // Verifica se é uma letra válida
 		if ((c >= 'a' && c <'z') || (c >= 'A' && c <'Z'))
 			return true;
@@ -107,8 +101,7 @@ public class Scanner {
 		else
 			return true;
 	}
-	private boolean isEOF(char c)
-	{
+	private boolean isEOF(char c) { // Quando o TextFileReader (BufferedReader) chega no final do arquivo ele retorna esse caracter
 		return (c == (char) -1);
 	}
 	
@@ -116,12 +109,14 @@ public class Scanner {
 		switch (getCurrentChar()) {
 			case '!':
 				take();
-				while (isGraphic(getCurrentChar()))	// Ignorar caracter gráfico
+				while (isGraphic(getCurrentChar()))	// Ignorar caractere gráfico
 					take();
 			break;
 			case ' ': case '﻿': case '\t': case '\r': case '\n' :
 				take();
 			default:
+				// O padrão é dar erro? 
+				// Acho que vai entrar em loop infinito quando for um caractere não gráfico
 			break;
 		}
 	}
@@ -146,10 +141,6 @@ public class Scanner {
 					return Token.THEN;
 				case "else":
 					return Token.ELSE;
-				case "function":
-					return Token.FUNCTION;
-				case "procedure":
-					return Token.PROCEDURE;
 				case "var":
 					return Token.VAR;
 				case "while":
@@ -180,7 +171,7 @@ public class Scanner {
 			take();								//	{0,1,...,9}
 			while(isDigit(getCurrentChar()))
 					take();
-			if (getCurrentChar() == '.' && getLookahead() != '.') {
+			if (getCurrentChar() == '.') {
 				take();
 				while(isDigit(getCurrentChar()))
 						take();
@@ -277,29 +268,35 @@ public class Scanner {
 			take();
 			return Token.OPEQUAL;
 		}
+		else if (isEOF(getCurrentChar())) {
+			take();
+			return Token.EOF;
+		}
 		else { 	// 	Erro no análise léxica, 
 				// 	Não foi possível classificar como token da linguagem
+			/*
 			System.out.println("ERROR - LEXICAL\nThe character read: [" + getCurrentChar() 
 					+ "] (character code " + (int) getCurrentChar() + "), in line " + getCurrentLine() + 
 					" column "+ (getCurrentColumn()-currentSpelling.length()-1) + 
 					" cannot be used in Mini-pascal."
 					);
+					*/
 			take();
-			return -1; 	//	Tem que ser reportado erro léxico
+			return Token.ERRO;
+			//			return -1; 	//	Tem que ser reportado erro léxico
 		}
-		
 	}
 	
-	public Token scan () 
-	{
-		//char character = '﻿';  
-		//int ascii = (int) character;
-		
-		//System.out.println("ASCII: " + ascii);
-		//System.out.println(isEOF(getCurrentChar()));
-		if(isEOF(getCurrentChar()))
-			return null;
-		else {
+	public Token scan() {
+//		char character = '﻿'; 
+//		char character = getCurrentChar();
+//		int ascii = (int) character;
+//		
+//		System.out.println("ASCII: " + ascii);
+//		System.out.println(isEOF(getCurrentChar()));
+//		if(isEOF(getCurrentChar())) 
+//			return null;
+//		else {
 			while(	getCurrentChar() == '!' 
 					|| getCurrentChar() == ' '
 					|| getCurrentChar() == '\r'
@@ -308,9 +305,9 @@ public class Scanner {
 					)
 				scanSeparator();
 			  
-			if(isEOF(getCurrentChar()))
-				return null;
-			else {
+//			if(isEOF(getCurrentChar()))
+//				return null; 
+//			else {
 				setCurrentSpelling(new StringBuffer(""));
 				setCurrentType(scanToken()); 
 							
@@ -319,7 +316,7 @@ public class Scanner {
 						getCurrentLine(), 
 						getCurrentColumn()-currentSpelling.length()-1
 						);
-			}
-		}	
+//			}
+//		}	
 	}		
 }

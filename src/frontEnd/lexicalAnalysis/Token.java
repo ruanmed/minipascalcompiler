@@ -45,29 +45,33 @@ public class Token{
 	public int getColumn() {
 		return this.column;
 	}
-	public String toString()
-	{
-		return new String("Type = "+getType()+
-				"\nSpelling = "+getSpelling()+
-				"\nCurrent Line = "+getLine()+
-				"\nCurrent Column = "+getColumn()
+	public String toString() {
+		return new String("\nType = " + getType() +
+				" (" + spellings[getType()] + ")" +
+				"\nSpelling = " + getSpelling() +
+				"\nLength = " + getSpelling().length() +
+				"\nHash = " + getSpelling().hashCode() +
+				"\nCurrent Line = " + getLine() +
+				"\nCurrent Column = " + getColumn()
 				);
+		
+//		int ascii = (int) character;
 	}
 	
 	public final static int
-		ID				= 0,
-		TRUE			= 1,
-		FALSE			= 2,
-		BEGIN			= 3,
-		END				= 4,
-		IF				= 5,
-		THEN			= 6,
-		ELSE			= 7,
-		FUNCTION		= 8,
-		PROCEDURE		= 9,
-		VAR				= 10,
-		WHILE			= 11,
-		DO				= 12,
+		ID				= 0,	// identifier
+		TRUE			= 1,	// true
+		FALSE			= 2,	// false
+		BEGIN			= 3,	// begin
+		END				= 4,	// end
+		IF				= 5,	// if
+		THEN			= 6,	// then
+		ELSE			= 7,	// else
+		INTLITERAL		= 8,	// int-lit
+		FLOATLITERAL	= 9,	// float-lit
+		VAR				= 10,	// var
+		WHILE			= 11,	// while
+		DO				= 12,	// do
 		OR				= 13,	// OR op
 		AND				= 14,	// AND op
 		PROGRAM			= 15,	// program
@@ -96,8 +100,9 @@ public class Token{
 		OPEQUAL			= 38, 	// =
 		OPDIFF			= 39, 	// <>
 		OPATTRIB		= 40, 	// :=
-		INTLITERAL		= 41,	// 
-		FLOATLITERAL	= 42;
+		
+		EOF				= 41, 	// EOF - Fim do arquivo
+		ERRO			= 42;
 		
 	
 	public final static String[] spellings = {
@@ -109,8 +114,8 @@ public class Token{
 			"if",
 			"then",
 			"else",
-			"function",
-			"procedure",
+			"int-lit",
+			"float-lit",
 			"var",
 			"while",
 			"do",
@@ -142,8 +147,8 @@ public class Token{
 			"=",
 			"<>",
 			":=",
-			"int-lit",
-			"float-lit"
+			"<eof>",
+			"error"
 			//"<eot>"
 	};
 	

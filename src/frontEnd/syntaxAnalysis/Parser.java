@@ -8,12 +8,10 @@ public class Parser {
 	Scanner scanner;
 	Token currentToken;
 	
-	public Parser(TextFileReader file)
-	{
+	public Parser(TextFileReader file){
 		scanner = new Scanner(file);
 	}
-	public void parse()
-	{
+	public void parse(){
 		currentToken = scanner.scan();
 		parsePrograma();
 	}
@@ -174,46 +172,44 @@ public class Parser {
 										//		| <declaração-de-procedimento>
 		if (currentToken.getType() == Token.VAR)
 			parseDeclaraçãoDeVariável();
-		else if (currentToken.getType() == Token.FUNCTION)
-			parseDeclaraçãoDeFunção();
-		else if (currentToken.getType() == Token.PROCEDURE)
-			parseDeclaraçãoDeProcedimento();
+//		else if (currentToken.getType() == Token.FUNCTION)
+//			parseDeclaraçãoDeFunção();
+//		else if (currentToken.getType() == Token.PROCEDURE)
+//			parseDeclaraçãoDeProcedimento();
 		else {
 			System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
 					"] (token type " + currentToken.getType() + "), in line " + currentToken.getLine() + 
 					" column "+ currentToken.getColumn() + 
-					", while it was expected either a(n) \"" + 
-					Token.spellings[Token.VAR] + "\" (token type " + Token.VAR + "), \"" +
-					Token.spellings[Token.FUNCTION] + "\" (token type " + Token.FUNCTION + ") or \"" +
-					Token.spellings[Token.PROCEDURE] + "\" (token type " + Token.PROCEDURE + ")." 
+					", while it was expected a(n) \"" + 
+					Token.spellings[Token.VAR] + "\" (token type " + Token.VAR + ")." 
 					);
 		}
 	}
-	private void parseDeclaraçãoDeFunção() {	//	<declaração-de-função> ::= 
-												//		function id "(" ( <lista-de-parâmetros> | <vazio> ) ")" : <tipo-simples> ; <corpo>
-
-		accept(Token.FUNCTION);
-		accept(Token.ID);
-		accept(Token.LPARENTHESIS);
-		if (currentToken.getType() == Token.VAR || currentToken.getType() == Token.ID)
-			parseListaDeParâmetros();	
-		accept(Token.RPARENTHESIS);
-		accept(Token.COLON);
-		parseTipoSimples();
-		accept(Token.SEMICOLON);
-		parseCorpo();
-	}
-	private void parseDeclaraçãoDeProcedimento() {	//	<declaração-de-procedimento> ::= 
-													//		procedure id "(" ( <lista-de-parâmetros> | <vazio> ) ")" ; <corpo>
-		accept(Token.PROCEDURE);
-		accept(Token.ID);
-		accept(Token.LPARENTHESIS);
-		if (currentToken.getType() == Token.VAR || currentToken.getType() == Token.ID)
-			parseListaDeParâmetros();
-		accept(Token.RPARENTHESIS);
-		accept(Token.SEMICOLON);
-		parseCorpo();
-	}
+//	private void parseDeclaraçãoDeFunção() {	//	<declaração-de-função> ::= 
+//												//		function id "(" ( <lista-de-parâmetros> | <vazio> ) ")" : <tipo-simples> ; <corpo>
+//
+//		accept(Token.FUNCTION);
+//		accept(Token.ID);
+//		accept(Token.LPARENTHESIS);
+//		if (currentToken.getType() == Token.VAR || currentToken.getType() == Token.ID)
+//			parseListaDeParâmetros();	
+//		accept(Token.RPARENTHESIS);
+//		accept(Token.COLON);
+//		parseTipoSimples();
+//		accept(Token.SEMICOLON);
+//		parseCorpo();
+//	}
+//	private void parseDeclaraçãoDeProcedimento() {	//	<declaração-de-procedimento> ::= 
+//													//		procedure id "(" ( <lista-de-parâmetros> | <vazio> ) ")" ; <corpo>
+//		accept(Token.PROCEDURE);
+//		accept(Token.ID);
+//		accept(Token.LPARENTHESIS);
+//		if (currentToken.getType() == Token.VAR || currentToken.getType() == Token.ID)
+//			parseListaDeParâmetros();
+//		accept(Token.RPARENTHESIS);
+//		accept(Token.SEMICOLON);
+//		parseCorpo();
+//	}
 	private void parseDeclaraçãoDeVariável() {	//	<declaração-de-variável> ::= 
 												//		var <lista-de-ids> : <tipo>
 		accept(Token.VAR);
@@ -223,8 +219,7 @@ public class Parser {
 	}
 	private void parseDeclarações() {	//	<declarações> ::= 
 										//		( <declaração> ; )*
-		while(currentToken.getType() == Token.VAR || currentToken.getType() == Token.FUNCTION || 
-				currentToken.getType() == Token.PROCEDURE) {
+		while(currentToken.getType() == Token.VAR) {
 			parseDeclaração();
 			accept(Token.SEMICOLON);
 		}
