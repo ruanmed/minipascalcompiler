@@ -256,13 +256,13 @@ public class Parser {
 			accept(Token.SEMICOLON);
 		}
 	}
-	private void parseListaDeExpressões() {	//	<lista-de-expressões> ::= <expressão> ( , <expressão> )*
-		parseExpressão();
-		while (currentToken.getType() == Token.COMMA) {
-			accept();
-			parseExpressão();
-		}
-	}
+//	private void parseListaDeExpressões() {	//	<lista-de-expressões> ::= <expressão> ( , <expressão> )*
+//		parseExpressão();
+//		while (currentToken.getType() == Token.COMMA) {
+//			accept();
+//			parseExpressão();
+//		}
+//	}
 	private void parseListaDeIds() {	//	<lista-de-ids> ::= id ( , id )*
 		accept(Token.ID);
 		while (currentToken.getType() == Token.COMMA) {
@@ -270,13 +270,13 @@ public class Parser {
 			accept(Token.ID);
 		}
 	}
-	private void parseListaDeParâmetros() {	//	<lista-de-parâmetros> ::= <parâmetros> ( ; <parâmetros> ) * 
-		parseParâmetros();
-		while (currentToken.getType() == Token.SEMICOLON) {
-			accept();
-			parseParâmetros();
-		}
-	}
+//	private void parseListaDeParâmetros() {	//	<lista-de-parâmetros> ::= <parâmetros> ( ; <parâmetros> ) * 
+//		parseParâmetros();
+//		while (currentToken.getType() == Token.SEMICOLON) {
+//			accept();
+//			parseParâmetros();
+//		}
+//	}
 	private void parseLiteral() {	//	<literal> ::= <bool-lit> | int-lit | float-lit 
 		if (currentToken.getType() == Token.TRUE || currentToken.getType() == Token.FALSE) 
 			parseBoolLit();
@@ -349,14 +349,14 @@ public class Parser {
 		}	
 
 	}
-	private void parseParâmetros() {	//	<parâmetros> ::= 
-										//		( var | <vazio> ) <lista-de-ids> : <tipo-simples>
-		if (currentToken.getType() == Token.VAR)
-			accept();
-		parseListaDeIds();
-		accept(Token.COLON);
-		parseTipoSimples();
-	}
+//	private void parseParâmetros() {	//	<parâmetros> ::= 
+//										//		( var | <vazio> ) <lista-de-ids> : <tipo-simples>
+//		if (currentToken.getType() == Token.VAR)
+//			accept();
+//		parseListaDeIds();
+//		accept(Token.COLON);
+//		parseTipoSimples();
+//	}
 	
 	private void parsePrograma() { 	// <programa> ::= program id ; <corpo> .
 		accept(Token.PROGRAM);
