@@ -1,5 +1,10 @@
 package frontEnd.AST;
 
-public class TipoSimplesNode extends TipoNode {
+import frontEnd.lexicalAnalysis.Token;
 
+public class TipoSimplesNode extends TipoNode {
+	public Token N;
+	public TipoSimplesNode() {
+		
+	}
 }

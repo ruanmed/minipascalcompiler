@@ -2,6 +2,7 @@ package frontEnd.syntaxAnalysis;
 import frontEnd.fileReader.TextFileReader;
 import frontEnd.lexicalAnalysis.Scanner;
 import frontEnd.lexicalAnalysis.Token;
+import frontEnd.AST.*;
 
 public class Parser {
 
@@ -31,12 +32,15 @@ public class Parser {
 	public void accept() {	//	acceptIt();
 			currentToken = scanner.scan();
 	}
-
-	private void parseAtribuição() {	//	<atribuição> ::= 
+	
+	private ComandoNode parseAtribuição() {	//	<atribuição> ::= 
 										//		<variável> := <expressão>
+		ComandoNode atribAST;
 		parseVariável();
 		accept(Token.OPATTRIB);
 		parseExpressão();
+		atribAST = new ComandoAtribuiçãoNode();
+		return atribAST;
 	}
 	private void parseBoolLit() {	//	<bool-lit> ::= true | false
 		if (currentToken.getType() == Token.TRUE)
@@ -131,10 +135,12 @@ public class Parser {
 			parseComando();
 		}
 	}
-	private void parseCorpo() {	//	<corpo> ::=
+	private CorpoNode parseCorpo() {	//	<corpo> ::=
 								//		<declarações> <comando-composto>
+		CorpoNode corpoAST = new CorpoNode();
 		parseDeclarações();
 		parseComandoComposto();
+		return corpoAST;
 	}
 	private void parseDeclaração() {	//	<declaração> ::=
 										//		<declaração-de-variável> 
@@ -358,12 +364,16 @@ public class Parser {
 //		parseTipoSimples();
 //	}
 	
-	private void parsePrograma() { 	// <programa> ::= program id ; <corpo> .
+	private ProgramaNode parsePrograma() { 	// <programa> ::= program id ; <corpo> .
+		ProgramaNode progAST;
 		accept(Token.PROGRAM);
 		accept(Token.ID);
+		Token idAST = currentToken;
 		accept(Token.SEMICOLON);
-		parseCorpo();
+		CorpoNode corpoAST = parseCorpo();
 		accept(Token.DOT);
+		progAST = new ProgramaNode(idAST, corpoAST);
+		return progAST;				
 	}
 	
 	private void parseSeletor() {	//	<seletor> ::= ( [ <expressão> ] )*

@@ -1,5 +1,5 @@
 package frontEnd.AST;
 
-public class FatorNode extends Node {
+public abstract class FatorNode extends Node {
 
 }

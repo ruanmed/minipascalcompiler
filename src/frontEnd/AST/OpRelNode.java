@@ -1,5 +1,5 @@
 package frontEnd.AST;
 
-public class OpRelNode extends OperaçãoNode {
+public class OpRelNode extends OperadorNode {
 
 }

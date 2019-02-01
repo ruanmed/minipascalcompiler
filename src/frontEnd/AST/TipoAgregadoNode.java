@@ -6,4 +6,7 @@ public class TipoAgregadoNode extends TipoNode {
 	public Token INDEX_1;
 	public Token INDEX_2;
 	public TipoNode T;
+	public TipoAgregadoNode() {
+	
+	}
 }
