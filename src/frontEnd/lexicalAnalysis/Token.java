@@ -13,6 +13,13 @@ public class Token{
 		setLine(line);
 		setColumn(column);
 	}
+	
+	public Token(Token to_copy){
+		setType(to_copy.type);
+		setSpelling(to_copy.spelling);
+		setLine(to_copy.line);
+		setColumn(to_copy.column);
+	}
 
 	private void setType(int newType){
 		this.type	= newType;
