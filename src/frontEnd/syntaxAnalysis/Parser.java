@@ -39,7 +39,7 @@ public class Parser {
 	
 	private ComandoNode parseAtribuição() {	//	<atribuição> ::= 
 										//		<variável> := <expressão>
-		ComandoNode atribAST;
+		ComandoNode atribAST = null;
 		parseVariável();
 		accept(Token.OPATTRIB);
 		parseExpressão();
@@ -99,17 +99,17 @@ public class Parser {
 //	}
 	private ComandoNode parseComando() {	//	<comando> ::= <atribuição> 
 									//		| <condicional> 
-		ComandoNode comAST;							//		| <iterativo> 
+		ComandoNode comAST = null;							//		| <iterativo> 
 									//		| <comando-composto>
 		if (currentToken.getType() == Token.ID) {
-			parseAtribuição();
+			comAST =parseAtribuição();
 		}
 		else if (currentToken.getType() == Token.IF)
-			parseCondicional();
+			comAST = parseCondicional();
 		else if (currentToken.getType() == Token.WHILE)
-			parseIterativo();
+			comAST = parseIterativo();
 		else if (currentToken.getType() == Token.BEGIN)
-			parseComandoComposto();
+			comAST = parseComandoComposto();
 		else {
 			System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
 					"] (token type " + currentToken.getType() + "), in line " + currentToken.getLine() + 
@@ -123,9 +123,9 @@ public class Parser {
 		}
 		return comAST;
 	}
-	private ComandoCompostoNode parseComandoComposto() {	//	<comando-composto> ::= 
+	private ComandoNode parseComandoComposto() {	//	<comando-composto> ::= 
 											//		begin <lista-de-comandos> end
-		ComandoCompostoNode comcAST;
+		ComandoNode comcAST = null;
 		accept(Token.BEGIN);
 		ListaDeComandosNode listAST = parseListaDeComandos();
 		accept(Token.END);
@@ -148,9 +148,9 @@ public class Parser {
 	}
 	private CorpoNode parseCorpo() {	//	<corpo> ::=
 								//		<declarações> <comando-composto>
-		CorpoNode corpoAST; 
+		CorpoNode corpoAST = null; 
 		DeclaraçãoNode declAST = parseDeclarações();
-		ComandoCompostoNode comanAST = parseComandoComposto();
+		ComandoNode comanAST = parseComandoComposto();
 		corpoAST = new CorpoNode(declAST, comanAST);
 		return corpoAST;
 	}
@@ -201,7 +201,7 @@ public class Parser {
 //		parseCorpo();
 //	}
 	private DeclaraçãoNode parseDeclaraçãoDeVariável() {	//	<declaração-de-variável> ::= 
-		DeclaraçãoNode declAST;									//		var <lista-de-ids> : <tipo>
+		DeclaraçãoNode declAST = null;									//		var <lista-de-ids> : <tipo>
 		accept(Token.VAR);
 		ListaDeIdsNode listAST = parseListaDeIds();
 		accept(Token.COLON);
@@ -225,7 +225,7 @@ public class Parser {
 	}
 	private ExpressãoNode parseExpressão() {	//	<expressão> ::= 
 									//		<expressão-simples> ( ε | <op-rel> <expressão-simples> ) 
-		ExpressãoNode expAST;
+		ExpressãoNode expAST = null;
 		ExpressãoSimplesNode exs1AST = null, exs2AST = null;
 		OperadorNode opAST = null;
 		exs1AST = parseExpressãoSimples();
@@ -236,23 +236,38 @@ public class Parser {
 			opAST = parseOpRel();
 			exs2AST = parseExpressãoSimples();
 		}
-		expAST = new ExpressãoNode(exs1AST, opAST, exs2AST)
+		expAST = new ExpressãoNode(exs1AST, opAST, exs2AST);
 		return expAST;
 	}
 	private ExpressãoSimplesNode parseExpressãoSimples() {	//	<expressão-simples> ::= 
 											//		<termo> ( <op-ad> <termo> )*
-		ExpressãoSimplesNode exsAST;
-		parseTermo();
-		if (currentToken.getType() == Token.OPSUM || currentToken.getType() == Token.OPSUB ||
+		ExpressãoSimplesNode exsAST = null;
+		SequênciaTermosNode primsqAST = null, ultisqAST = null, sqAST = null;
+		TermoNode termAST = null;
+		termAST = parseTermo();
+		
+		while (currentToken.getType() == Token.OPSUM || currentToken.getType() == Token.OPSUB ||
 			currentToken.getType() == Token.OR 
 			) {
-			parseOpAd();
-			parseTermo();
+			OperadorNode oseqAST = null;
+			TermoNode tseqAST = null;
+			oseqAST = parseOpAd();
+			tseqAST = parseTermo();
+			sqAST = new SequênciaTermosNode(oseqAST, tseqAST, null);
+			
+			if (primsqAST == null)
+				primsqAST = sqAST;
+			else
+				ultisqAST.próximaS = sqAST;
+			ultisqAST = sqAST;			
 		}
+		
+		exsAST = new ExpressãoSimplesNode(termAST, primsqAST);
 		return exsAST;
 	}
-	private void parseFator() {	//	<fator> ::= <variável> 
+	private FatorNode parseFator() {	//	<fator> ::= <variável> 
 								//		| <literal>  | "(" <expressão> ")" 
+		FatorNode fatorAST = null;
 		if (currentToken.getType() == Token.ID) {
 			parseVariável();
 		}
@@ -278,18 +293,19 @@ public class Parser {
 					Token.spellings[Token.LPARENTHESIS] + "\" (token type " + Token.LPARENTHESIS + ")." 
 					);
 		}
+		return fatorAST;
 	}
 	private ComandoNode parseIterativo() {	//	<iterativo> ::= while <expressão> do <comando>
-		ComandoNode iterAST;
+		ComandoNode iterAST = null;
 		accept(Token.WHILE);
 		ExpressãoNode expAST = parseExpressão();
 		accept(Token.DO);
 		ComandoNode com1AST = parseComando();
-		iterAST = ComandoIterativoNode(expAST, com1AST);
+		iterAST = new ComandoIterativoNode(expAST, com1AST);
 		return iterAST;
 	}
 	private ListaDeComandosNode parseListaDeComandos() {	//	<lista-de-comandos> ::= ( <comando> ; )*
-		ListaDeComandosNode listcomAST;
+		ListaDeComandosNode listcomAST = null;
 		while (currentToken.getType() == Token.ID || currentToken.getType() == Token.IF ||
 				currentToken.getType() == Token.WHILE || currentToken.getType() == Token.BEGIN) {
 			parseComando();
@@ -305,8 +321,8 @@ public class Parser {
 //		}
 //	}
 	private ListaDeIdsNode parseListaDeIds() {	//	<lista-de-ids> ::= id ( , id )*
-		ListaDeIdsNode primelistAST =null, ultimolistAST = null, listAST;
-		Token idAST;
+		ListaDeIdsNode primelistAST =null, ultimolistAST = null, listAST = null;
+		Token idAST = null;
 		idAST = accept(Token.ID);
 		primelistAST = new ListaDeIdsNode(idAST);
 		ultimolistAST = primelistAST; 
@@ -346,10 +362,12 @@ public class Parser {
 					);
 		}	
 	}
-	private void parseOpAd() {	// 	<op-ad> ::= + | - | or
+	private OperadorNode parseOpAd() {	// 	<op-ad> ::= + | - | or
+		OperadorNode opAST = null;
+		Token tokenAST = null;
 		switch(currentToken.getType()) {
 			case Token.OPSUM: case Token.OPSUB: case Token.OR:
-				accept();
+				tokenAST = accept();
 				break;
 			default:
 				System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
@@ -360,12 +378,16 @@ public class Parser {
 						Token.spellings[Token.OPSUB] + "\" (token type " + Token.OPSUB + ") or \"" +
 						Token.spellings[Token.OR] + "\" (token type " + Token.OR + ")." 
 						);
-		}		
+		}
+		opAST = new OperadorNode(tokenAST);
+		return opAST;
 	}
-	private void parseOpMul() {	//	<op-mul> ::= *  | /  | and
+	private OperadorNode parseOpMul() {	//	<op-mul> ::= *  | /  | and
+		OperadorNode opAST = null;
+		Token tokenAST = null;
 		switch(currentToken.getType()) {
 			case Token.OPMULT: case Token.OPDIV: case Token.AND:
-				accept();
+				tokenAST = accept();
 				break;
 			default:
 				System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
@@ -376,10 +398,12 @@ public class Parser {
 						Token.spellings[Token.OPDIV] + "\" (token type " + Token.OPDIV + ") or \"" +
 						Token.spellings[Token.AND] + "\" (token type " + Token.AND + ")." 
 						);
-		}		
+		}
+		opAST = new OperadorNode(tokenAST);
+		return opAST;
 	}
 	private OperadorNode parseOpRel() {	//	<op-rel> ::= <  | >  | <=  | >= | = | <>
-		OperadorNode opAST;
+		OperadorNode opAST = null;
 		Token tokenAST = null;
 		switch(currentToken.getType()) {
 			case Token.OPLOWERTHN: case Token.OPGREATTHN: case Token.OPLOWOREQ: 
@@ -412,7 +436,7 @@ public class Parser {
 //	}
 	
 	private ProgramaNode parsePrograma() { 	// <programa> ::= program id ; <corpo> .
-		ProgramaNode progAST;
+		ProgramaNode progAST = null;
 		accept(Token.PROGRAM);
 		Token idAST = accept(Token.ID);
 		accept(Token.SEMICOLON);
@@ -422,23 +446,42 @@ public class Parser {
 		return progAST;				
 	}
 	
-	private void parseSeletor() {	//	<seletor> ::= ( [ <expressão> ] )*
+	private SeletorNode parseSeletor() {	//	<seletor> ::= ( [ <expressão> ] )*
+		SeletorNode selAST = null;
 		while(currentToken.getType() == Token.LBRACKET) {
 			accept();
 			parseExpressão();
 			accept(Token.RBRACKET);
 		}
+		return selAST;
 	}
-	private void parseTermo() {	//	<termo> ::= <fator> ( <op-mul> <fator> )*
-		parseFator();
+	private TermoNode parseTermo() {	//	<termo> ::= <fator> ( <op-mul> <fator> )*
+		TermoNode termAST = null;
+		SequênciaFatoresNode primsqAST = null, ultisqAST = null, sqAST = null;
+		FatorNode fatorAST = null;
+		termAST = parseTermo();
+		
 		while (currentToken.getType() == Token.OPMULT || currentToken.getType() == Token.OPDIV
 				|| currentToken.getType() == Token.AND) {
-			parseOpMul();
-			parseFator();
+			OperadorNode oseqAST = null;
+			FatorNode fseqAST = null;
+			oseqAST = parseOpMul();
+			fseqAST = parseFator();
+			
+			sqAST = new SequênciaFatoresNode(oseqAST, fseqAST, null);
+			
+			if (primsqAST == null)
+				primsqAST = sqAST;
+			else
+				ultisqAST.próximaS = sqAST;
+			ultisqAST = sqAST;			
 		}
+		
+		termAST = new TermoNode(fatorAST, primsqAST);
+		return termAST;
 	}
 	private TipoNode parseTipo() {	//	<tipo> ::= <tipo-agregado> | <tipo-simples>
-		TipoNode tipoAST;
+		TipoNode tipoAST = null;
 		if (currentToken.getType() == Token.ARRAY)
 			parseTipoAgregado();
 		else if (currentToken.getType() == Token.INTEGER || currentToken.getType() == Token.REAL
@@ -455,10 +498,11 @@ public class Parser {
 					Token.spellings[Token.BOOLEAN] + "\" (token type " + Token.BOOLEAN + ")." 
 					);
 		}
-		return TipoNode;
+		return tipoAST;
 	}
-	private void parseTipoAgregado() {	//	<tipo-agregado> ::= 
+	private TipoAgregadoNode parseTipoAgregado() {	//	<tipo-agregado> ::= 
 										//		array [ int-lit .. int-lit ] of <tipo>
+		TipoAgregadoNode tagrAST = null;
 		accept(Token.ARRAY);
 		accept(Token.LBRACKET);
 		accept(Token.INTLITERAL);
@@ -467,9 +511,11 @@ public class Parser {
 		accept(Token.RBRACKET);
 		accept(Token.OF);
 		parseTipo();
+		return tagrAST;
 	}
-	private void parseTipoSimples() {	//	<tipo-simples> ::= 
+	private TipoSimplesNode parseTipoSimples() {	//	<tipo-simples> ::= 
 										//		integer | real 	| boolean
+		TipoSimplesNode tsimpAST = null;
 		switch(currentToken.getType()) {
 			case Token.INTEGER: case Token.REAL: case Token.BOOLEAN:
 				accept();
@@ -484,11 +530,14 @@ public class Parser {
 						Token.spellings[Token.BOOLEAN] + "\" (token type " + Token.BOOLEAN + ")." 
 						);
 		}		
+		return tsimpAST;
 	}
-	private void parseVariável() {	//	<variável> ::= 
+	private VariávelNode parseVariável() {	//	<variável> ::= 
 									//		id <seletor>
+		VariávelNode varAST = null;
 		accept(Token.ID);
 		parseSeletor();
+		return varAST;
 	}
 	private void parseVazio() {	//	<vazio> ::= 
 								//		ε
