@@ -12,9 +12,11 @@ public class Parser {
 	public Parser(TextFileReader file){
 		scanner = new Scanner(file);
 	}
-	public void parse(){
+	public ProgramaNode parse(){
+		ProgramaNode progAST = null;
 		currentToken = scanner.scan();
-		parsePrograma();
+		progAST = parsePrograma();
+		return progAST;
 	}
 	public Token accept(int expectedType) {
 		if (currentToken.getType() == expectedType)
