@@ -46,21 +46,25 @@ public class Parser {
 		atribAST = new ComandoAtribuiçãoNode();
 		return atribAST;
 	}
-	private void parseBoolLit() {	//	<bool-lit> ::= true | false
-		if (currentToken.getType() == Token.TRUE)
-			accept();
-		else if (currentToken.getType() == Token.FALSE)
-			accept();
-		else {
-			System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
-					"] (token type " + currentToken.getType() + "), in line " + currentToken.getLine() + 
-					" column "+ currentToken.getColumn() + 
-					", while it was expected either a(n) \"" + 
-					Token.spellings[Token.TRUE] + "\" (token type " + Token.TRUE + ") or \"" +
-					Token.spellings[Token.FALSE] + "\" (token type " + Token.FALSE + ")." 
-					);
-		}
-	}
+//	private LiteralNode parseBoolLit() {	//	<bool-lit> ::= true | false
+//		LiteralNode litAST = null;
+//		Token tokenAST = null;
+//		if (currentToken.getType() == Token.TRUE)
+//			tokenAST = accept();
+//		else if (currentToken.getType() == Token.FALSE)
+//			tokenAST = accept();
+//		else {
+//			System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
+//					"] (token type " + currentToken.getType() + "), in line " + currentToken.getLine() + 
+//					" column "+ currentToken.getColumn() + 
+//					", while it was expected either a(n) \"" + 
+//					Token.spellings[Token.TRUE] + "\" (token type " + Token.TRUE + ") or \"" +
+//					Token.spellings[Token.FALSE] + "\" (token type " + Token.FALSE + ")." 
+//					);
+//		}
+//		litAST = new LiteralNode(tokenAST);
+//		return litAST;
+//	}
 //	private void parseChamadaDeFunção() {	//	<chamada-de-função> ::= 
 //											//		id "(" ( <lista-de-expressões> | <vazio> ) ")"
 //		accept(Token.ID);
@@ -269,15 +273,15 @@ public class Parser {
 								//		| <literal>  | "(" <expressão> ")" 
 		FatorNode fatorAST = null;
 		if (currentToken.getType() == Token.ID) {
-			parseVariável();
+			fatorAST = parseVariável();
 		}
 		else if (currentToken.getType() == Token.TRUE || currentToken.getType() == Token.FALSE 
 				|| currentToken.getType() == Token.INTLITERAL || currentToken.getType() == Token.FLOATLITERAL) {
-			parseLiteral();
+			fatorAST = parseLiteral();
 		}
 		else if (currentToken.getType() == Token.LPARENTHESIS) {
 			accept();
-			parseExpressão();
+			fatorAST = parseExpressão();
 			accept(Token.RPARENTHESIS);
 		}
 		else {
@@ -305,13 +309,22 @@ public class Parser {
 		return iterAST;
 	}
 	private ListaDeComandosNode parseListaDeComandos() {	//	<lista-de-comandos> ::= ( <comando> ; )*
-		ListaDeComandosNode listcomAST = null;
+		ListaDeComandosNode primlistcomAST = null, ultilistcomAST = null, listcomAST = null;
+		ComandoNode comAST = null;
 		while (currentToken.getType() == Token.ID || currentToken.getType() == Token.IF ||
 				currentToken.getType() == Token.WHILE || currentToken.getType() == Token.BEGIN) {
-			parseComando();
+			comAST = parseComando();
+			listcomAST = new ListaDeComandosNode(comAST, null);
+			
+			if (primlistcomAST == null)
+				primlistcomAST = listcomAST;
+			else
+				ultilistcomAST.próximaLC = listcomAST;
+			ultilistcomAST = listcomAST;
+
 			accept(Token.SEMICOLON);
 		}
-		return listcomAST;
+		return primlistcomAST;
 	}
 //	private void parseListaDeExpressões() {	//	<lista-de-expressões> ::= <expressão> ( , <expressão> )*
 //		parseExpressão();
@@ -343,13 +356,17 @@ public class Parser {
 //			parseParâmetros();
 //		}
 //	}
-	private void parseLiteral() {	//	<literal> ::= <bool-lit> | int-lit | float-lit 
-		if (currentToken.getType() == Token.TRUE || currentToken.getType() == Token.FALSE) 
-			parseBoolLit();
+	private LiteralNode parseLiteral() {	//	<literal> ::= <bool-lit> | int-lit | float-lit 
+		LiteralNode litAST = null;
+		Token tokenAST = null;
+		if (currentToken.getType() == Token.TRUE)
+			tokenAST = accept();
+		else if (currentToken.getType() == Token.FALSE) 
+			tokenAST = accept();
 		else if (currentToken.getType() == Token.INTLITERAL)
-			accept();
+			tokenAST = accept();
 		else if (currentToken.getType() == Token.FLOATLITERAL)
-			accept();
+			tokenAST = accept();
 		else {
 			System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
 					"] (token type " + currentToken.getType() + "), in line " + currentToken.getLine() + 
@@ -360,7 +377,9 @@ public class Parser {
 					Token.spellings[Token.INTLITERAL] + "\" (token type " + Token.INTLITERAL + ") or \"" +
 					Token.spellings[Token.FLOATLITERAL] + "\" (token type " + Token.FLOATLITERAL + ")." 
 					);
-		}	
+		}
+		litAST = new LiteralNode(tokenAST);		
+		return litAST;
 	}
 	private OperadorNode parseOpAd() {	// 	<op-ad> ::= + | - | or
 		OperadorNode opAST = null;
@@ -437,23 +456,35 @@ public class Parser {
 	
 	private ProgramaNode parsePrograma() { 	// <programa> ::= program id ; <corpo> .
 		ProgramaNode progAST = null;
+		Token idAST = null;
+		CorpoNode corpoAST = null;
 		accept(Token.PROGRAM);
-		Token idAST = accept(Token.ID);
+		idAST = accept(Token.ID);
 		accept(Token.SEMICOLON);
-		CorpoNode corpoAST = parseCorpo();
+		corpoAST = parseCorpo();
 		accept(Token.DOT);
 		progAST = new ProgramaNode(idAST, corpoAST);
 		return progAST;				
 	}
 	
 	private SeletorNode parseSeletor() {	//	<seletor> ::= ( [ <expressão> ] )*
-		SeletorNode selAST = null;
+		SeletorNode primselAST = null, ultiselAST = null, selAST = null;
+		ExpressãoNode expAST = null;
+		
 		while(currentToken.getType() == Token.LBRACKET) {
 			accept();
-			parseExpressão();
+			expAST = parseExpressão();
+			
+			selAST = new SeletorNode(expAST, null);
+			if (primselAST == null)
+				primselAST = selAST;
+			else
+				ultiselAST.próximoS = selAST;
+			ultiselAST = selAST;
+			
 			accept(Token.RBRACKET);
 		}
-		return selAST;
+		return primselAST;
 	}
 	private TermoNode parseTermo() {	//	<termo> ::= <fator> ( <op-mul> <fator> )*
 		TermoNode termAST = null;
@@ -483,10 +514,10 @@ public class Parser {
 	private TipoNode parseTipo() {	//	<tipo> ::= <tipo-agregado> | <tipo-simples>
 		TipoNode tipoAST = null;
 		if (currentToken.getType() == Token.ARRAY)
-			parseTipoAgregado();
+			tipoAST = parseTipoAgregado();
 		else if (currentToken.getType() == Token.INTEGER || currentToken.getType() == Token.REAL
 				|| currentToken.getType() == Token.BOOLEAN)
-			parseTipoSimples();
+			tipoAST = parseTipoSimples();
 		else {
 			System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
 					"] (token type " + currentToken.getType() + "), in line " + currentToken.getLine() + 
@@ -503,22 +534,26 @@ public class Parser {
 	private TipoAgregadoNode parseTipoAgregado() {	//	<tipo-agregado> ::= 
 										//		array [ int-lit .. int-lit ] of <tipo>
 		TipoAgregadoNode tagrAST = null;
+		TipoNode tipoAST = null;
+		Token IDX1 = null, IDX2 = null;
 		accept(Token.ARRAY);
 		accept(Token.LBRACKET);
-		accept(Token.INTLITERAL);
+		IDX1 = accept(Token.INTLITERAL);
 		accept(Token.TILL);
-		accept(Token.INTLITERAL);
+		IDX2 = accept(Token.INTLITERAL);
 		accept(Token.RBRACKET);
 		accept(Token.OF);
-		parseTipo();
+		tipoAST = parseTipo();
+		tagrAST = new TipoAgregadoNode(IDX1, IDX2, tipoAST);
 		return tagrAST;
 	}
 	private TipoSimplesNode parseTipoSimples() {	//	<tipo-simples> ::= 
 										//		integer | real 	| boolean
 		TipoSimplesNode tsimpAST = null;
+		Token tokenAST = null;
 		switch(currentToken.getType()) {
 			case Token.INTEGER: case Token.REAL: case Token.BOOLEAN:
-				accept();
+				tokenAST = accept();
 				break;
 			default:
 				System.out.println("ERROR - SYNTAX\nUnexpected token read: [" + currentToken.getSpelling() +
@@ -529,18 +564,22 @@ public class Parser {
 						Token.spellings[Token.REAL] + "\" (token type " + Token.REAL + ") or \"" +
 						Token.spellings[Token.BOOLEAN] + "\" (token type " + Token.BOOLEAN + ")." 
 						);
-		}		
+		}
+		tsimpAST = new TipoSimplesNode(tokenAST);
 		return tsimpAST;
 	}
 	private VariávelNode parseVariável() {	//	<variável> ::= 
 									//		id <seletor>
 		VariávelNode varAST = null;
-		accept(Token.ID);
-		parseSeletor();
+		SeletorNode selAST = null;
+		Token tokenAST = null;
+		tokenAST = accept(Token.ID);
+		selAST = parseSeletor();
+		varAST = new VariávelNode(tokenAST, selAST);
 		return varAST;
 	}
-	private void parseVazio() {	//	<vazio> ::= 
-								//		ε
-		
-	}
+//	private void parseVazio() {	//	<vazio> ::= 
+//								//		ε
+//		
+//	}
 }

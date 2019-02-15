@@ -1,9 +1,12 @@
 package frontEnd.AST;
 
+import frontEnd.lexicalAnalysis.*;
+
 public class VariávelNode extends FatorNode {
-	public IdentificadorNode I;
+	public Token N;
 	public SeletorNode S; // É uma lista de seletores
-	public VariávelNode() {
-		
+	public VariávelNode(Token N, SeletorNode S) {
+		this.N = N;
+		this.S = S;
 	}
 }

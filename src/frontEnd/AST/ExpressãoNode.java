@@ -1,6 +1,6 @@
 package frontEnd.AST;
 
-public class ExpressãoNode extends Node {
+public class ExpressãoNode extends FatorNode {
 	public ExpressãoSimplesNode E1;
 	public OperadorNode O; // Operador relacional opcional
 	public ExpressãoSimplesNode E2; // Expressão 2  opcional
