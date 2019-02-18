@@ -1,8 +1,14 @@
 package frontEnd.AST;
 
+import frontEnd.syntaxAnalysis.Visitor;
+
 public class ComandoCondicionalNode extends ComandoNode {
 	public ExpressãoNode E;
 	public ComandoNode C1, C2; // Comandos, se verdadeiro C1, se falso C2 (não obrigatório)
+	
+	public void visit(Visitor v) {
+		v.visitComandoCondicional(this);
+	}
 	public ComandoCondicionalNode(ExpressãoNode E, ComandoNode C1, ComandoNode C2) {
 //		super(null);
 		this.E = E;

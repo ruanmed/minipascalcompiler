@@ -9,7 +9,7 @@ public class ProgramaNode extends Node {
 	public Token N;
 	public CorpoNode C;
 	
-	public void visit(Visitor v){
+	public void visit(Visitor v) {
 		v.visitPrograma(this);
 	}
 	public ProgramaNode(Token N, CorpoNode C) {

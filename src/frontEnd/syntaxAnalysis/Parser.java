@@ -42,10 +42,12 @@ public class Parser {
 	private ComandoNode parseAtribuição() {	//	<atribuição> ::= 
 										//		<variável> := <expressão>
 		ComandoNode atribAST = null;
-		parseVariável();
+		VariávelNode varAST = null;
+		ExpressãoNode expAST = null;
+		varAST = parseVariável();
 		accept(Token.OPATTRIB);
-		parseExpressão();
-		atribAST = new ComandoAtribuiçãoNode();
+		expAST = parseExpressão();
+		atribAST = new ComandoAtribuiçãoNode(varAST, expAST);
 		return atribAST;
 	}
 //	private LiteralNode parseBoolLit() {	//	<bool-lit> ::= true | false
@@ -132,8 +134,9 @@ public class Parser {
 	private ComandoNode parseComandoComposto() {	//	<comando-composto> ::= 
 											//		begin <lista-de-comandos> end
 		ComandoNode comcAST = null;
+		ListaDeComandosNode listAST = null;
 		accept(Token.BEGIN);
-		ListaDeComandosNode listAST = parseListaDeComandos();
+		listAST = parseListaDeComandos();
 		accept(Token.END);
 		comcAST = new ComandoCompostoNode(listAST);
 		return comcAST;
@@ -155,8 +158,10 @@ public class Parser {
 	private CorpoNode parseCorpo() {	//	<corpo> ::=
 								//		<declarações> <comando-composto>
 		CorpoNode corpoAST = null; 
-		DeclaraçãoNode declAST = parseDeclarações();
-		ComandoNode comanAST = parseComandoComposto();
+		DeclaraçãoNode declAST = null;
+		ComandoNode comanAST = null;
+		declAST = parseDeclarações();
+		comanAST = parseComandoComposto();
 		corpoAST = new CorpoNode(declAST, comanAST);
 		return corpoAST;
 	}
@@ -208,10 +213,12 @@ public class Parser {
 //	}
 	private DeclaraçãoNode parseDeclaraçãoDeVariável() {	//	<declaração-de-variável> ::= 
 		DeclaraçãoNode declAST = null;									//		var <lista-de-ids> : <tipo>
+		ListaDeIdsNode listAST = null;
+		TipoNode tipoAST = null;
 		accept(Token.VAR);
-		ListaDeIdsNode listAST = parseListaDeIds();
+		listAST = parseListaDeIds();
 		accept(Token.COLON);
-		TipoNode tipoAST = parseTipo();
+		tipoAST = parseTipo();
 		declAST = new DeclaraçãoDeVariávelNode(listAST,tipoAST);
 		return declAST;
 	}
