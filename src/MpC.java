@@ -2,6 +2,9 @@ import frontEnd.fileReader.TextFileReader;
 import frontEnd.lexicalAnalysis.Scanner;
 import frontEnd.lexicalAnalysis.Token;
 import frontEnd.syntaxAnalysis.Parser;
+import frontEnd.syntaxAnalysis.Printer;
+import frontEnd.AST.*;
+
 public class MpC {
 
 	public static void main(String[] args) {
@@ -27,7 +30,10 @@ public class MpC {
 				
 //				System.out.println(text);
 				Parser parser = new Parser(reader);
-				parser.parse();
+				ProgramaNode P;
+				P = parser.parse();
+				Printer printer = new Printer();
+				printer.print(P);
 			}
 			else {
 				System.out.println("The file read was empty.");

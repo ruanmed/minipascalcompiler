@@ -19,6 +19,7 @@ public class Parser {
 		return progAST;
 	}
 	public Token accept(int expectedType) {
+		Token token_lido = new Token(currentToken);
 		if (currentToken.getType() == expectedType)
 			currentToken = scanner.scan();
 		else {	//	Erro na análise sintática
@@ -30,12 +31,11 @@ public class Parser {
 					"\" (token type " + expectedType + ")." 
 					);
 		}
-		Token token_lido = new Token(currentToken);
 		return token_lido;
 	}
 	public Token accept() {	//	acceptIt();
-		currentToken = scanner.scan();
 		Token token_lido = new Token(currentToken);
+		currentToken = scanner.scan();
 		return token_lido;
 	}
 	
@@ -468,6 +468,8 @@ public class Parser {
 		Token idAST = null;
 		CorpoNode corpoAST = null;
 		accept(Token.PROGRAM);
+
+		System.out.println(currentToken.toString());
 		idAST = accept(Token.ID);
 		accept(Token.SEMICOLON);
 		corpoAST = parseCorpo();
@@ -499,7 +501,7 @@ public class Parser {
 		TermoNode termAST = null;
 		SequênciaFatoresNode primsqAST = null, ultisqAST = null, sqAST = null;
 		FatorNode fatorAST = null;
-		termAST = parseTermo();
+		fatorAST = parseFator();
 		
 		while (currentToken.getType() == Token.OPMULT || currentToken.getType() == Token.OPDIV
 				|| currentToken.getType() == Token.AND) {

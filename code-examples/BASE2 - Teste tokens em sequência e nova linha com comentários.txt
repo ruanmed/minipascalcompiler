@@ -1,0 +1,43 @@
+﻿and array begin boolean do else end false float-lit identificador if integer int-lit of or program real then true var while >= > = <> <= < + ] [ ; : / .. . , * ) ( - 
+
+
+and! UM COMENTÁRIOAS !@#@%237908723412!@$!@sdlsdjhf 
+array! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+begin! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+boolean! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+do! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+else! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+end! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+false! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+float-lit! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+identificador! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+if! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+integer! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+int-lit! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+of! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+or! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+program! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+real! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+then! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+true! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+var! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+while! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+>=! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+>! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+=! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+<>! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+<=! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+<! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
++! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+]! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+[! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+;! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+:! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+/! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+..! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+.! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+,! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+*! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+)! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+(! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 
+-! UM COMENTÁRIO QUALQUER ßñ©æíáíé®í²³ú¤‘¡³ú‘¡²‘³¡‘¤¡’³¶óáðóóö¡!@#@%237908723412!@$!@sdlsdjhf 

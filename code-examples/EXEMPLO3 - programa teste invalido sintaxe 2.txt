@@ -1,0 +1,27 @@
+program programaDeTesteInvalidoSintaxe2 ;
+	var variavelnteira1, variavelInteira2 : intenger ;
+	var variavelReal1, variavelReal2: real ;
+
+	procedure procedimento () ;
+		var variavelDeProcedimento : real ;
+		begin
+			variavelDeProcedimento := 20.1 ;
+			variavelInteira1 = variavelInteira1 * variavelInteira2 ;
+			variavelReal1 := variavelReal2;
+			
+
+	function funcao1 ( var parametroDeFuncao1 : ; var parametroDeFuncao2 : float ) : ; 
+		var variavelDeFuncao : boolean ;
+		begin
+			if ( parametroDeFuncao1 >= parametroDeFuncao2 ) then
+				variavelInteira1 := 1 ;
+			else
+					
+					variavelInteira1 := 5 ;
+					variavelInteira2 := variavelInteira1 * 10 + parametroDeFuncao1 ;
+					procedimento() ;
+				end
+		end
+	begin
+	end
+.

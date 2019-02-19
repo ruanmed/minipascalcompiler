@@ -1,0 +1,26 @@
+! Exemplo 5 - Programa de teste com declaração de variáveis.
+
+program test;
+
+var a, b, c: integer;
+var b, c, d: real;
+var x : boolean;
+
+begin
+	if (a or b)  then
+		begin
+			x := y;
+		end
+	else
+		begin
+			y:=x;
+			x:=y;
+			while (x < y)
+			do
+			x:=a;
+		end
+	;
+begin
+end;
+
+end.

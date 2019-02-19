@@ -28,9 +28,18 @@ import frontEnd.AST.TipoSimplesNode;
 import frontEnd.AST.VariávelNode;
 
 public class Printer implements Visitor {
-
+	
+	public int i = 0;
+	
 	public Printer() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	void indent() {
+		System.out.print (i + " ");
+		for (int j=0; j<i; j++)
+			System.out.print ("|");
+//		System.out.print ("->");
 	}
 	
 	public void print(ProgramaNode P) {
@@ -71,19 +80,30 @@ public class Printer implements Visitor {
 	@Override
 	public void visitCorpo(CorpoNode C) {
 		// TODO Auto-generated method stub
-
+		if (C.D != null) C.D.visit(this);
+		if (C.CC != null) C.CC.visit(this);
 	}
 
 	@Override
 	public void visitDeclaraçãoDeVariável(DeclaraçãoDeVariávelNode D) {
 		// TODO Auto-generated method stub
-
+		indent();
+		if (D.T != null) D.T.visit(this);
+		i++;
+		if (D.LI != null) D.LI.visit(this);
+		i--;
+		if (D.próximaD != null) {
+			i++;
+			D.próximaD.visit(this);
+			i--;
+		}
+		
 	}
 
 	@Override
 	public void visitDeclaração(DeclaraçãoNode D) {
 		// TODO Auto-generated method stub
-
+		if (D != null) D.visit(this);
 	}
 
 	@Override
@@ -119,7 +139,16 @@ public class Printer implements Visitor {
 	@Override
 	public void visitListaDeIds(ListaDeIdsNode LI) {
 		// TODO Auto-generated method stub
-
+		if (LI.I != null) {
+			indent();
+			System.out.println(LI.I.getSpelling());
+		}
+		if (LI.próximaLI != null) {
+			i++;
+			LI.próximaLI.visit(this);
+			i--;
+		}
+		
 	}
 
 	@Override
@@ -143,7 +172,13 @@ public class Printer implements Visitor {
 	@Override
 	public void visitPrograma(ProgramaNode P) {
 		// TODO Auto-generated method stub
-
+		if (P != null) {
+			indent();
+			if (P.N != null) System.out.println(P.N.getSpelling());
+			i++;
+			if (P.C != null) P.C.visit(this);
+			i--;
+		}
 	}
 
 	@Override
@@ -179,13 +214,13 @@ public class Printer implements Visitor {
 	@Override
 	public void visitTipo(TipoNode T) {
 		// TODO Auto-generated method stub
-
+		if (T != null) T.visit(this);
 	}
 
 	@Override
 	public void visitTipoSimples(TipoSimplesNode TS) {
 		// TODO Auto-generated method stub
-
+		if (TS.N != null) System.out.println(TS.N.getSpelling());
 	}
 
 	@Override
