@@ -4,9 +4,8 @@
  * These classes are responsible for the Syntax Analysis of Mini-Pascal, they use the lexicalAnalysis package.
  *
  *
- * @author Ricardo
+ * @author Rafael
  * @author Ruan
- * @author Wesley
  *
  */
 package frontEnd.syntaxAnalysis;

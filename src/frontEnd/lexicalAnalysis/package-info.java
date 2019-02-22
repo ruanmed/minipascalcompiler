@@ -1,12 +1,11 @@
 /**
- * Lexical Analysis classes.
+ * Classes da Análise Léxica.
  * <p>
- * These classes are responsible for the Lexical Analysis of Mini-Pascal.
+ * Estas classes são responsáveis pela Análise Léxica do Compilador de Mini-Pascal.
  *
  *
- * @author Ricardo
+ * @author Rafael
  * @author Ruan
- * @author Wesley
  *
  */
 package frontEnd.lexicalAnalysis;

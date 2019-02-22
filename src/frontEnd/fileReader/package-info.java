@@ -1,12 +1,11 @@
 /**
- * File Reader classes.
+ * Classes de Leitura de Arquivos.
  * <p>
- * These classes are responsible for file reading.
+ * Estas classes são responsáveis pela leitura de arquivos.
  *
  *
- * @author Ricardo
+ * @author Rafael
  * @author Ruan
- * @author Wesley
  *
  */
 package frontEnd.fileReader;

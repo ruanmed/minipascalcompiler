@@ -1,10 +1,9 @@
 /**
- * Classes used by the compiler Front End to validate the Mini-Pascal code received as input.
+ * Classes utilizadas pelo Front End do compilador para validar entradas de código em Mini-Pascal.
  *
  *
- * @author Ricardo
+ * @author Rafael
  * @author Ruan
- * @author Wesley
  *
  */
 package frontEnd;
