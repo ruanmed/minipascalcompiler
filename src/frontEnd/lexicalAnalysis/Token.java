@@ -1,5 +1,7 @@
 package frontEnd.lexicalAnalysis;
 
+import frontEnd.syntaxAnalysis.Visitor;
+
 public class Token{
 	
 	private int 	type;
@@ -21,6 +23,10 @@ public class Token{
 		setColumn(to_copy.column);
 	}
 
+	public void visit(Visitor v){
+		v.visitToken(this);
+	}
+	
 	private void setType(int newType){
 		this.type	= newType;
 	}

@@ -1,6 +1,7 @@
 package frontEnd.syntaxAnalysis;
 
 import frontEnd.AST.*;
+import frontEnd.lexicalAnalysis.*;
 
 public interface Visitor {
 	public void visitComandoAtribuição(ComandoAtribuiçãoNode CA);
@@ -28,5 +29,6 @@ public interface Visitor {
 	public void visitTipoAgregado(TipoAgregadoNode TA);
 	public void visitTipo(TipoNode T);
 	public void visitTipoSimples(TipoSimplesNode TS);
+	public void visitToken(Token T);
 	public void visitVariável(VariávelNode V);
 }

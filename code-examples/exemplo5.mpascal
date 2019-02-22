@@ -15,7 +15,7 @@ begin
 		begin
 			y:=x;
 			x:=y;
-			while (x < y)
+			while (x < (y+u+j))
 			do
 			x:=a;
 		end

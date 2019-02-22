@@ -469,7 +469,6 @@ public class Parser {
 		CorpoNode corpoAST = null;
 		accept(Token.PROGRAM);
 
-		System.out.println(currentToken.toString());
 		idAST = accept(Token.ID);
 		accept(Token.SEMICOLON);
 		corpoAST = parseCorpo();
