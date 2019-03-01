@@ -33,11 +33,31 @@ public class Printer implements Visitor {
 	
 	public int i = 0;
 	
+	public int mode = 0;
+	
+	public int level[] = {0,0,0,0,0}; 
+	
+	public char end[] = {'├','└'};
+	
 	public Printer() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	void indent() {
+		System.out.print (i + " ");
+		for (int j=0; j<i; j++) {
+			if (j == i-1) 
+				System.out.print (end[(mode>=1)?1:0]); // ├  └
+			else {
+				if (j >= (i - mode))
+					System.out.print (" ");
+				else
+					System.out.print ("|");
+			}
+		}
+	}
+	
+	void indent2() {
 		System.out.print (i + " ");
 		for (int j=0; j<i; j++)
 			System.out.print ("|");
@@ -101,16 +121,22 @@ public class Printer implements Visitor {
 	public void visitDeclaraçãoDeVariável(DeclaraçãoDeVariávelNode D) {
 		// TODO Auto-generated method stub
 		
+		if (D.próximaD == null) 
+			mode++;
+		
 		if (D.T != null) D.T.visit(this);
-		i++;
+		i++;		
 		if (D.LI != null) D.LI.visit(this);
 		i--;
+		
+		if (D.próximaD == null) 
+			mode--;	
+		
 		if (D.próximaD != null) {
 			i++;
 			D.próximaD.visit(this);
 			i--;
-		}
-		
+		}		
 	}
 
 	@Override
@@ -165,16 +191,21 @@ public class Printer implements Visitor {
 	@Override
 	public void visitListaDeIds(ListaDeIdsNode LI) {
 		// TODO Auto-generated method stub
+		if (LI.próximaLI == null) mode++;
+		
 		if (LI.I != null) {
 			indent();
 			System.out.println(LI.I.getSpelling());
 		}
+		
 		if (LI.próximaLI != null) {
+			mode++;
+			
 			i++;
 			LI.próximaLI.visit(this);
 			i--;
 		}
-		
+		mode--;
 	}
 
 	@Override
