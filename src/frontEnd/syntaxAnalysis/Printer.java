@@ -37,13 +37,8 @@ import java.util.Stack;
 
 public class Printer implements Visitor {
 	
-	public int i = 0;
-
-	
-	public int level[] = {0,0,0,0,0}; 
-	    
+	public int i = 0;	    
 	public Stack<Boolean> levelt = new Stack<Boolean>();
-	
 	public char end[] = {'├','└'};
 	
 	public Printer() {
@@ -99,14 +94,17 @@ public class Printer implements Visitor {
 	@Override
 	public void visitComandoAtribuição(ComandoAtribuiçãoNode CA) {
 		// TODO Auto-generated method stub
-		
-		if (CA.V != null) CA.V.visit(this);
-		inc(true);
 		indent();
-		System.out.println("=");
-		dec();
+			System.out.println("[COM-ATRIBUIÇÃO]");
 		inc(false);
-		if (CA.E != null) CA.E.visit(this);
+			if (CA.V != null) CA.V.visit(this);
+			inc(true);
+				indent();
+					System.out.println("=");
+			dec();
+			inc(false);
+				if (CA.E != null) CA.E.visit(this);
+			dec();
 		dec();
 	}
 
@@ -121,26 +119,27 @@ public class Printer implements Visitor {
 		// TODO Auto-generated method stub
 		
 		indent();
-		System.out.println("[condicional]");
+			System.out.println("[COM-CONDICIONAL]");
 		inc(true);
+			indent();
+				System.out.println("[EXPRESSÃO]");
+			inc(false);
+				if (CC.E != null) CC.E.visit(this);
+			dec();
 		
-		indent();
-		System.out.println("[E]");
-		inc(false);
-		if (CC.E != null) CC.E.visit(this);
-		dec();
-		
-		indent();
-		System.out.println("[C1]");
-		inc(false);
-		if (CC.C1 != null) CC.C1.visit(this);
-		dec();
-		
-		indent();
-		System.out.println("[C2]");
-		inc(false);
-		if (CC.C2 != null) CC.C2.visit(this);
-		dec();
+			indent();
+				System.out.println("[C1]");
+			inc(false);
+				if (CC.C1 != null) CC.C1.visit(this);
+			dec();
+			
+			dec();
+			inc(false);
+			indent();
+				System.out.println("[C2]");
+			inc(false);
+				if (CC.C2 != null) CC.C2.visit(this);
+			dec();
 		
 		dec();
 	}
@@ -149,22 +148,23 @@ public class Printer implements Visitor {
 	public void visitComandoIterativo(ComandoIterativoNode CC) {
 		// TODO Auto-generated method stub
 		indent();
-		System.out.println("[iterativo]");
+			System.out.println("[COM-ITERATIVO]");
 		inc(true);
 		
-		indent();
-		System.out.println("[E]");
-		inc(false);
-		if (CC.E != null) CC.E.visit(this);
-		dec();
+			indent();
+				System.out.println("[E]");
+			inc(false);
+				if (CC.E != null) CC.E.visit(this);
+			dec();
 		
 		dec();
 		inc(false);
 		
-		indent();
-		System.out.println("[C]");
-		inc(false);
-		if (CC.C != null) CC.C.visit(this);
+//			indent();
+//				System.out.println("[C]");
+//			inc(false);
+				if (CC.C != null) CC.C.visit(this);
+//			dec();
 		dec();
 	}
 
@@ -177,28 +177,37 @@ public class Printer implements Visitor {
 	@Override
 	public void visitCorpo(CorpoNode C) {
 		// TODO Auto-generated method stub
-		if (C.D != null) C.D.visit(this);
-		if (C.CC != null) C.CC.visit(this);
+		indent();
+			System.out.println("[CORPO]");
+		inc(true);
+			if (C.D != null) C.D.visit(this);
+		dec();
+		inc(false);
+			if (C.CC != null) C.CC.visit(this);
+		dec();
 	}
 
 	@Override
 	public void visitDeclaraçãoDeVariável(DeclaraçãoDeVariávelNode D) {
 		// TODO Auto-generated method stub
-		if (D.T != null) D.T.visit(this);
-			
-		if (D.LI != null) {
-			if (D.LI.próximaLI != null) inc(true);
-			else inc(false);
-			D.LI.visit(this);
-			dec();
-		}
-		
-		
-		if (D.próximaD != null) {
-			inc(false);
-			D.próximaD.visit(this);
-			dec();
-		}		
+		indent();
+			System.out.println("[DECL-VAR]");
+		inc(true);
+			if (D.T != null) D.T.visit(this);
+				
+			if (D.LI != null) {
+				if (D.LI.próximaLI == null) {
+					dec();
+					inc(false);
+				}
+				D.LI.visit(this);
+			}
+		dec();
+		inc(false);
+			if (D.próximaD != null) {
+				D.próximaD.visit(this);
+			}
+		dec();
 	}
 
 	@Override
@@ -242,43 +251,48 @@ public class Printer implements Visitor {
 	public void visitListaDeComandos(ListaDeComandosNode LC) {
 		// TODO Auto-generated method stub
 		indent();
-		System.out.println("[LC]");
-		inc(true);
+			System.out.println("[LC]");
+		if (LC.próximaLC == null) inc(false);
+		else inc(true);
 		
-		indent();
-		System.out.println("[C]");
-		inc(false);
-		
-		if (LC.C != null) LC.C.visit(this);
-		dec();
-		
-		if (LC.próximaLC != null) {
-			if (LC.próximaLC.C != null) {
-				indent();
-				System.out.println("[próximaLC]");			
-				inc(false);
-				
-				LC.próximaLC.visit(this);
-				dec();
+//			indent();
+//				System.out.println("[C]");
+//			inc(false);
+			
+				if (LC.C != null) LC.C.visit(this);
+//			dec();
+			dec();
+			inc(false);
+			if (LC.próximaLC != null) {
+				if (LC.próximaLC.C != null) {
+//					indent();
+//						System.out.println("[próximaLC]");			
+//					inc(false);
+						LC.próximaLC.visit(this);
+//					dec();
+				}
 			}
-		}
 		dec();
 	}
 
 	@Override
 	public void visitListaDeIds(ListaDeIdsNode LI) {
 		// TODO Auto-generated method stub		
-		if (LI.I != null) {
-			indent();
-			System.out.println(LI.I.getSpelling());
-		}
-		
-		if (LI.próximaLI != null) {
+		indent();
+		System.out.println("[LI]");
+		inc(false);
+			if (LI.I != null) {
+				indent();
+				System.out.println(LI.I.getSpelling());
+			}
 			
-			inc(false);
-			LI.próximaLI.visit(this);
-			dec();
-		}
+			if (LI.próximaLI != null) {
+				
+				inc(false);
+				LI.próximaLI.visit(this);
+				dec();
+			}
+		dec();
 	}
 
 	@Override
@@ -307,9 +321,13 @@ public class Printer implements Visitor {
 		// TODO Auto-generated method stub
 		if (P != null) {
 			indent();
-			if (P.N != null) System.out.println("program " + P.N.getSpelling());
+				System.out.println("[PROGRAMA]");
 			inc(true);
-			if (P.C != null) P.C.visit(this);
+				indent();
+					if (P.N != null) System.out.println("TOKEN " + P.N.getSpelling());
+			dec();
+			inc(false);
+				if (P.C != null) P.C.visit(this);
 			dec();
 		}
 	}
@@ -368,9 +386,13 @@ public class Printer implements Visitor {
 	@Override
 	public void visitTipoAgregado(TipoAgregadoNode TA) {
 		// TODO Auto-generated method stub
-		if (TA.T != null) TA.T.visit(this);
-		if (TA.INDEX_1 != null) TA.INDEX_1.visit(this);
-		if (TA.INDEX_2  != null) TA.INDEX_2.visit(this);
+		indent();
+		System.out.println("[TIPO-AGREGADO]");
+		inc(false);
+			if (TA.T != null) TA.T.visit(this);
+			if (TA.INDEX_1 != null) TA.INDEX_1.visit(this);
+			if (TA.INDEX_2  != null) TA.INDEX_2.visit(this);
+		dec();
 	}
 
 	@Override
@@ -382,7 +404,11 @@ public class Printer implements Visitor {
 	@Override
 	public void visitTipoSimples(TipoSimplesNode TS) {
 		// TODO Auto-generated method stub
-		if (TS.N != null) TS.N.visit(this);
+		indent();
+		System.out.println("[TIPO-SIMPLES]");
+		inc(false);
+			if (TS.N != null) TS.N.visit(this);
+		dec();
 	}
 	
 	@Override
@@ -390,6 +416,7 @@ public class Printer implements Visitor {
 		// TODO Auto-generated method stub
 		if (T != null) {
 			indent();
+//			System.out.println("[" + T.getType() + "] " + T.getSpelling());
 			System.out.println(T.getSpelling());
 		}
 	}

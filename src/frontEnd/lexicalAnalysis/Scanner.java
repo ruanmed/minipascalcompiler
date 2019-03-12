@@ -65,9 +65,9 @@ public class Scanner {
 			setCurrentColumn(getCurrentColumn()+1);
 		}
 		else { 	//	Erro de caracter não experado
-			System.out.println("ERROR\n Expected: " + expectedChar 
-					+ " in line " + getCurrentLine() + 
-					" column "+ getCurrentColumn());
+			System.out.println("ERRO\n Esperado: " + expectedChar 
+					+ " na linha " + getCurrentLine() + 
+					" coluna "+ getCurrentColumn());
 		}
 	}
 	

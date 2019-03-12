@@ -71,6 +71,11 @@ public class Token{
 //		int ascii = (int) character;
 	}
 	
+	public boolean equals (Object other) {
+		Token otherToken = (Token) other;
+		return (this.getType() == otherToken.getType());
+	}
+	
 	public final static int
 		ID				= 0,	// identifier
 		TRUE			= 1,	// true
