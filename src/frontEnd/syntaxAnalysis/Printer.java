@@ -29,30 +29,57 @@ import frontEnd.AST.VariávelNode;
 
 import frontEnd.lexicalAnalysis.Token;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import java.util.Stack;
+
+
 public class Printer implements Visitor {
 	
 	public int i = 0;
-	
-	public int mode = 0;
+
 	
 	public int level[] = {0,0,0,0,0}; 
+	    
+	public Stack<Boolean> levelt = new Stack<Boolean>();
 	
 	public char end[] = {'├','└'};
 	
 	public Printer() {
 		// TODO Auto-generated constructor stub
+//		levelt.push(Boolean.valueOf(true));
+	}
+	
+	void inc(boolean link) {
+		if (link) levelt.add(Boolean.valueOf(true));
+		else {
+			levelt.add(Boolean.valueOf(false));
+//			System.out.println ("here");
+		}
+		i++;
+	}
+	void dec() {
+		levelt.pop();
+		i--;
 	}
 	
 	void indent() {
-		System.out.print (i + " ");
+		System.out.print (String.format("%03d", i) + " ");
+
+//		System.out.println (levelt);
 		for (int j=0; j<i; j++) {
-			if (j == i-1) 
-				System.out.print (end[(mode>=1)?1:0]); // ├  └
-			else {
-				if (j >= (i - mode))
-					System.out.print (" ");
+			if (j == i-1) {
+				if (levelt.get(j))
+					System.out.print (end[0]); // ├ 
 				else
+					System.out.print (end[1]); // ├ 
+			}
+			else {
+				if (levelt.get(j))
 					System.out.print ("|");
+				else
+					System.out.print (" ");
 			}
 		}
 	}
@@ -74,11 +101,13 @@ public class Printer implements Visitor {
 		// TODO Auto-generated method stub
 		
 		if (CA.V != null) CA.V.visit(this);
-		i++;
+		inc(true);
 		indent();
 		System.out.println("=");
+		dec();
+		inc(false);
 		if (CA.E != null) CA.E.visit(this);
-		i--;
+		dec();
 	}
 
 	@Override
@@ -90,18 +119,53 @@ public class Printer implements Visitor {
 	@Override
 	public void visitComandoCondicional(ComandoCondicionalNode CC) {
 		// TODO Auto-generated method stub
+		
+		indent();
+		System.out.println("[condicional]");
+		inc(true);
+		
+		indent();
+		System.out.println("[E]");
+		inc(false);
 		if (CC.E != null) CC.E.visit(this);
-		i++;
+		dec();
+		
+		indent();
+		System.out.println("[C1]");
+		inc(false);
 		if (CC.C1 != null) CC.C1.visit(this);
+		dec();
+		
+		indent();
+		System.out.println("[C2]");
+		inc(false);
 		if (CC.C2 != null) CC.C2.visit(this);
-		i--;
+		dec();
+		
+		dec();
 	}
 
 	@Override
 	public void visitComandoIterativo(ComandoIterativoNode CC) {
 		// TODO Auto-generated method stub
+		indent();
+		System.out.println("[iterativo]");
+		inc(true);
+		
+		indent();
+		System.out.println("[E]");
+		inc(false);
 		if (CC.E != null) CC.E.visit(this);
+		dec();
+		
+		dec();
+		inc(false);
+		
+		indent();
+		System.out.println("[C]");
+		inc(false);
 		if (CC.C != null) CC.C.visit(this);
+		dec();
 	}
 
 	@Override
@@ -120,22 +184,20 @@ public class Printer implements Visitor {
 	@Override
 	public void visitDeclaraçãoDeVariável(DeclaraçãoDeVariávelNode D) {
 		// TODO Auto-generated method stub
-		
-		if (D.próximaD == null) 
-			mode++;
-		
 		if (D.T != null) D.T.visit(this);
-		i++;		
-		if (D.LI != null) D.LI.visit(this);
-		i--;
+			
+		if (D.LI != null) {
+			if (D.LI.próximaLI != null) inc(true);
+			else inc(false);
+			D.LI.visit(this);
+			dec();
+		}
 		
-		if (D.próximaD == null) 
-			mode--;	
 		
 		if (D.próximaD != null) {
-			i++;
+			inc(false);
 			D.próximaD.visit(this);
-			i--;
+			dec();
 		}		
 	}
 
@@ -164,9 +226,9 @@ public class Printer implements Visitor {
 		// TODO Auto-generated method stub
 		if (ES.T != null) ES.T.visit(this);
 		if (ES.ST != null) {
-			i++;
+			inc(false);
 			ES.ST.visit(this);
-			i--;
+			dec();
 		}
 	}
 
@@ -179,33 +241,44 @@ public class Printer implements Visitor {
 	@Override
 	public void visitListaDeComandos(ListaDeComandosNode LC) {
 		// TODO Auto-generated method stub
+		indent();
+		System.out.println("[LC]");
+		inc(true);
+		
+		indent();
+		System.out.println("[C]");
+		inc(false);
+		
 		if (LC.C != null) LC.C.visit(this);
+		dec();
 		
 		if (LC.próximaLC != null) {
-//			i++;
-			LC.próximaLC.visit(this);
-//			i--;
+			if (LC.próximaLC.C != null) {
+				indent();
+				System.out.println("[próximaLC]");			
+				inc(false);
+				
+				LC.próximaLC.visit(this);
+				dec();
+			}
 		}
+		dec();
 	}
 
 	@Override
 	public void visitListaDeIds(ListaDeIdsNode LI) {
-		// TODO Auto-generated method stub
-		if (LI.próximaLI == null) mode++;
-		
+		// TODO Auto-generated method stub		
 		if (LI.I != null) {
 			indent();
 			System.out.println(LI.I.getSpelling());
 		}
 		
 		if (LI.próximaLI != null) {
-			mode++;
 			
-			i++;
+			inc(false);
 			LI.próximaLI.visit(this);
-			i--;
+			dec();
 		}
-		mode--;
 	}
 
 	@Override
@@ -235,9 +308,9 @@ public class Printer implements Visitor {
 		if (P != null) {
 			indent();
 			if (P.N != null) System.out.println("program " + P.N.getSpelling());
-			i++;
+			inc(true);
 			if (P.C != null) P.C.visit(this);
-			i--;
+			dec();
 		}
 	}
 
@@ -246,9 +319,9 @@ public class Printer implements Visitor {
 		// TODO Auto-generated method stub
 		if (S.E != null) S.E.visit(this);
 		if (S.próximoS != null) {
-			i++;
+			inc(false);
 			S.próximoS.visit(this);
-			i--;
+			dec();
 		}
 	}
 
@@ -258,21 +331,26 @@ public class Printer implements Visitor {
 		if (SF.O != null) SF.O.visit(this);
 		if (SF.F != null) SF.F.visit(this);
 		if (SF.próximaS != null) {
-			i++;
+			inc(false);
 			SF.próximaS.visit(this);
-			i--;
+			dec();
 		}
 	}
 
 	@Override
 	public void visitSequênciaTermos(SequênciaTermosNode ST) {
 		// TODO Auto-generated method stub
+		
+		dec();
+		inc(true);
 		if (ST.O != null) ST.O.visit(this);
+		dec();
+		inc(false);		
 		if (ST.T != null) ST.T.visit(this);
 		if (ST.próximaS != null) {
-			i++;
+			inc(false);
 			ST.próximaS.visit(this);
-			i--;
+			dec();
 		}
 	}
 
@@ -281,9 +359,9 @@ public class Printer implements Visitor {
 		// TODO Auto-generated method stub
 		if (T.F != null) T.F.visit(this);
 		if (T.SF != null) {
-			i++;
+			inc(true);
 			T.SF.visit(this);
-			i--;
+			dec();
 		}
 	}
 
@@ -320,9 +398,9 @@ public class Printer implements Visitor {
 	public void visitVariável(VariávelNode V) {
 		// TODO Auto-generated method stub
 		if (V.N != null) V.N.visit(this);
-		i++;
+		inc(true);
 		if (V.S != null) V.S.visit(this);
-		i--;
+		dec();
 	}
 
 }
