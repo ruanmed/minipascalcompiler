@@ -38,12 +38,13 @@ import java.util.Stack;
 public class Printer implements Visitor {
 	
 	public int i = 0;	    
-	public Stack<Boolean> levelt = new Stack<Boolean>();
+	public Stack<Boolean> levelt;
 	public char end[] = {'├','└'};
 	
 	public Printer() {
 		// TODO Auto-generated constructor stub
 //		levelt.push(Boolean.valueOf(true));
+		levelt = new Stack<Boolean>();
 	}
 	
 	void inc(boolean link) {
@@ -60,6 +61,9 @@ public class Printer implements Visitor {
 	}
 	
 	void indent() {
+		int c =0;
+		int d =1;
+		c= d[2];
 		System.out.print (String.format("%03d", i) + " ");
 
 //		System.out.println (levelt);

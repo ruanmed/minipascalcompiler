@@ -5,10 +5,11 @@ import frontEnd.syntaxAnalysis.*;
 
 public class Checker implements Visitor {
 
-	IdentificationTable idTable = new IdentificationTable();
+	IdentificationTable idTable;
 	
 	public Checker() {
 		// TODO Auto-generated constructor stub
+		this.idTable = new IdentificationTable();
 	}
 
 	public void check (ProgramaNode P) {
