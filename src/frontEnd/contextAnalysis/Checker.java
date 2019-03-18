@@ -116,24 +116,15 @@ public class Checker implements Visitor {
 	@Override
 	public void visitDeclaraçãoDeVariável(DeclaraçãoDeVariávelNode D) {
 		// TODO Auto-generated method stub
-		indent();
-			System.out.println("[DECL-VAR]");
-		inc(true);
-			if (D.T != null) D.T.visit(this);
-				
-			if (D.LI != null) {
-				if (D.LI.próximaLI == null) {
-					dec();
-					inc(false);
-				}
-				D.LI.visit(this);
-			}
-		dec();
-		inc(false);
-			if (D.próximaD != null) {
-				D.próximaD.visit(this);
-			}
-		dec();
+		ListaDeIdsNode temp = D.LI;
+		Node atributo = D;
+		while (temp != null) {
+			this.idTable.enter(D.LI.I.getSpelling(), atributo);
+			temp = temp.próximaLI;
+		}
+		if (D.próximaD != null) {
+			D.próximaD.visit(this);
+		}
 	}
 
 	@Override

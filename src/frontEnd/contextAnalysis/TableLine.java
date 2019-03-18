@@ -1,5 +1,6 @@
 package frontEnd.contextAnalysis;
 import frontEnd.AST.*;
+import frontEnd.lexicalAnalysis.*;
 
 public class TableLine {
 	public int level;
