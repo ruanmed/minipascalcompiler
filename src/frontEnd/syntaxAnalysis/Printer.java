@@ -61,9 +61,6 @@ public class Printer implements Visitor {
 	}
 	
 	void indent() {
-		int c =0;
-		int d =1;
-		c= d[2];
 		System.out.print (String.format("%03d", i) + " ");
 
 //		System.out.println (levelt);

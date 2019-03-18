@@ -58,6 +58,7 @@ public class Token{
 	public int getColumn() {
 		return this.column;
 	}
+	
 	public String toString() {
 		return new String("\nType = " + getType() +
 				" (" + spellings[getType()] + ")" +
@@ -73,7 +74,7 @@ public class Token{
 	
 	public boolean equals (Object other) {
 		Token otherToken = (Token) other;
-		return (this.getType() == otherToken.getType());
+		return (this.getType() == otherToken.getType() && this.getSpelling().equals(otherToken.getSpelling()));
 	}
 	
 	public final static int
