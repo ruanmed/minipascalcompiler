@@ -20,21 +20,50 @@ public class Checker implements Visitor {
 	@Override
 	public void visitComandoAtribuição(ComandoAtribuiçãoNode CA) {
 		// TODO Auto-generated method stub
+		// REGRA T1. O tipo da expressão avaliada deve ser compatível com o tipo da variável.
 		if (CA.V != null) CA.V.visit(this);
-
+		
 		if (CA.E != null) CA.E.visit(this);
+		boolean erro = false;
+		switch (CA.V.tipo) {
+			case TabelaDeIdentificação.BOOLEAN:
+				if (CA.E.tipo != TabelaDeIdentificação.BOOLEAN)
+					erro = true;
+				break;
+			case TabelaDeIdentificação.INTEGER:
+				if (CA.E.tipo != TabelaDeIdentificação.INTEGER)
+					erro = true;
+				break;
+			case TabelaDeIdentificação.REAL:
+				erro = true;
+				break;
+			default:
+				break;
+		}
+		if (erro) System.out.println("ERRO - CONTEXTO\nAtribuição com tipos incompatíveis"
+				+ " na linha " + CA.V.N.getLine() + " coluna " + CA.V.N.getLine() + "." 
+				+ "\nA variável possui tipo " + CA.V.tipo + " [" + Token.spellings[CA.V.tipo] + "]" 
+				+ " enquanto a expressão possui tipo " + CA.E.tipo + " [" + Token.spellings[CA.E.tipo] + "].");
 	}
 
 	@Override
 	public void visitComandoComposto(ComandoCompostoNode CC) {
 		// TODO Auto-generated method stub
 		if (CC.LC != null) CC.LC.visit(this);
+		int j =20;
 	}
 
 	@Override
 	public void visitComandoCondicional(ComandoCondicionalNode CC) {
 		// TODO Auto-generated method stub
+		// REGRA T2. O tipo da expressão avaliada deve ser um valor lógico (booleano).
 		if (CC.E != null) CC.E.visit(this);
+		if (CC.E.tipo != TabelaDeIdentificação.BOOLEAN) {
+			System.out.println("ERRO - CONTEXTO\nTipos incompatíveis"
+					+ " na linha " + " coluna " + " do comando condicional." 
+					+ "\nA expressão possui tipo " + CC.E.tipo + " [" + Token.spellings[CC.E.tipo] + "]" 
+					+ " enquanto era esperado o tipo " + TabelaDeIdentificação.BOOLEAN + " [" + Token.spellings[TabelaDeIdentificação.BOOLEAN] + "].");
+		}
 		if (CC.C1 != null) CC.C1.visit(this);
 		if (CC.C2 != null) CC.C2.visit(this);
 	}
@@ -42,7 +71,14 @@ public class Checker implements Visitor {
 	@Override
 	public void visitComandoIterativo(ComandoIterativoNode CC) {
 		// TODO Auto-generated method stub
+		// REGRA T5. O tipo da expressão avaliada deve ser um valor lógico (booleano).
 		if (CC.E != null) CC.E.visit(this);
+		if (CC.E.tipo != TabelaDeIdentificação.BOOLEAN) {
+			System.out.println("ERRO - CONTEXTO\nTipos incompatíveis"
+					+ " na linha " + " coluna " + " do comando iterativo." 
+					+ "\nA expressão possui tipo " + CC.E.tipo + " [" + Token.spellings[CC.E.tipo] + "]" 
+					+ " enquanto era esperado o tipo " + TabelaDeIdentificação.BOOLEAN + " [" + Token.spellings[TabelaDeIdentificação.BOOLEAN] + "].");
+		}
 		if (CC.C != null) CC.C.visit(this);
 	}
 
@@ -89,6 +125,7 @@ public class Checker implements Visitor {
 	@Override
 	public void visitExpressão(ExpressãoNode E) {
 		// TODO Auto-generated method stub
+		// REGRA T3. Os tipos de ambas expressões simples avaliadas devem ser iguais
 		if (E.E1 != null) E.E1.visit(this);
 		if (E.O != null) E.O.visit(this);
 		if (E.E2 != null) E.E2.visit(this);
@@ -97,6 +134,7 @@ public class Checker implements Visitor {
 	@Override
 	public void visitExpressãoSimples(ExpressãoSimplesNode ES) {
 		// TODO Auto-generated method stub
+		// REGRA T4. O tipo da expressão simples avaliada deve ser igual ao tipo do termo avaliado.
 		if (ES.T != null) ES.T.visit(this);
 		if (ES.ST != null) {
 			ES.ST.visit(this);
@@ -242,13 +280,15 @@ public class Checker implements Visitor {
 		// TODO Auto-generated method stub
 		V.declaração = idTable.retrieve(V.N);
 		if (V.declaração instanceof DeclaraçãoDeVariávelNode) {
-			System.out.println("Nice");
+			
 			TipoNode ti = ((DeclaraçãoDeVariávelNode) V.declaração).T;
 			if (ti instanceof TipoSimplesNode) {
+				System.out.println("TIPO SIMPLES");
 				// Se for um tipo simples e houver um seletor, então deve retornar erro.
 				V.tipo = ((TipoSimplesNode) ti).N.getType(); 
 			}
 			else if (ti instanceof TipoAgregadoNode) {
+				System.out.println("TIPO AGREGADO");
 				// Se for um tipo agregado e não tiver seletor, deve retornar erro.
 //				V.tipo = ((TipoAgregadoNode) ti).T
 				// Pensando em criar um loop aqui, pq as visitar nos tipos do tipo agregado vão ser recursivas

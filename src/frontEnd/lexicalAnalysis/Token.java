@@ -2,7 +2,7 @@ package frontEnd.lexicalAnalysis;
 
 import frontEnd.syntaxAnalysis.Visitor;
 
-public class Token{
+public class Token {
 	
 	private int 	type;
 	private String	spelling;

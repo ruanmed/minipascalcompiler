@@ -90,7 +90,7 @@ public class Scanner {
 			return false;
 	}
 	private boolean isLetter (char c) {  // Verifica se é uma letra válida
-		if ((c >= 'a' && c <'z') || (c >= 'A' && c <'Z'))
+		if ((c >= 'a' && c <='z') || (c >= 'A' && c <='Z'))
 			return true;
 		else
 			return false;

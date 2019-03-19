@@ -24,6 +24,7 @@ public class TabelaDeIdentificação {
 		novaLinha.attribute = attribute;
 		novaLinha.identifier = identifier;
 		novaLinha.level = currentLevel;
+		novaLinha.used = false;
 		int c = 0;
 		for (; c < table.size(); c++) {
 			TableLine currentLine = table.get(c); 
@@ -45,6 +46,7 @@ public class TabelaDeIdentificação {
 			TableLine currentLine = table.get(c-1);
 			if (currentLine.level <= currentLevel && currentLine.identifier.equals(identifier)) {
 				attribute = currentLine.attribute;
+				currentLine.used = true;
 				break;
 			}
 		}
@@ -56,7 +58,7 @@ public class TabelaDeIdentificação {
 	
 	@Override 
 	public String toString() {
-		String resultado = new String("n\t nível\t identificador\t atributo\n");
+		String resultado = new String("n\t nível\t identificador\t utilizado\t atributo\n");
 		for (int c = 0; c < table.size(); c++) {
 			TableLine currentLine = table.get(c); 
 			resultado += String.format("%04d", c) + "\t " + currentLine.toString() + "\n";
@@ -64,4 +66,8 @@ public class TabelaDeIdentificação {
 		return resultado;
 	}
 	
+	public final static int // Definição dos tipos primitivos;
+		BOOLEAN = 20,
+		INTEGER = 18,
+		REAL 	= 19;
 }

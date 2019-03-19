@@ -3,22 +3,16 @@
 program test;
 
 var a, b, c: integer;
-var d, e, j, y, u: real;
-var x : array[10 .. 20] of integer;
-var h, n: boolean;
+var b, c, d: real;
+var x : array [10 .. 20] of integer;
 
 begin
 	if (a or b)  then
 		begin
 			x := y;
-			h := a;
 		end
 	else
 		begin
-			a:=b;
-			d:=e;
-			a:=d;
-			d:=c;
 			y:=x;
 			x:=y;
 			while (x < (y+u+j))
