@@ -138,7 +138,8 @@ public class Checker implements Visitor {
 	@Override
 	public void visitLiteral(LiteralNode L) {
 		// TODO Auto-generated method stub
-		if (L.L != null) L.L.visit(this);
+//		if (L.L != null) L.L.visit(this);
+		L.tipo = L.L.getType();	//	O tipo do literal é o tipo do token
 	}
 
 	@Override
@@ -197,7 +198,12 @@ public class Checker implements Visitor {
 	@Override
 	public void visitTermo(TermoNode T) {
 		// TODO Auto-generated method stub
-		if (T.F != null) T.F.visit(this);
+		if (T.F != null) {
+			T.F.visit(this);
+//			T.tipo =
+//			if (T.F instanceof VariávelNode)
+		}
+		
 		if (T.SF != null) {
 			T.SF.visit(this);
 		}
@@ -235,9 +241,27 @@ public class Checker implements Visitor {
 	public void visitVariável(VariávelNode V) {
 		// TODO Auto-generated method stub
 		V.declaração = idTable.retrieve(V.N);
+		if (V.declaração instanceof DeclaraçãoDeVariávelNode) {
+			System.out.println("Nice");
+			TipoNode ti = ((DeclaraçãoDeVariávelNode) V.declaração).T;
+			if (ti instanceof TipoSimplesNode) {
+				// Se for um tipo simples e houver um seletor, então deve retornar erro.
+				V.tipo = ((TipoSimplesNode) ti).N.getType(); 
+			}
+			else if (ti instanceof TipoAgregadoNode) {
+				// Se for um tipo agregado e não tiver seletor, deve retornar erro.
+//				V.tipo = ((TipoAgregadoNode) ti).T
+				// Pensando em criar um loop aqui, pq as visitar nos tipos do tipo agregado vão ser recursivas
+			}
+		}
+
+//		DeclaraçãoNode test = V.declaração;
+		
+//		tipo = V.N.getType();
 //		System.out.println(V.N.toString());
 		if (V.N != null) V.N.visit(this);
 		if (V.S != null) V.S.visit(this);
+//		return tipo;
 	}
 	
 	public TabelaDeIdentificação getTabelaDeIdentificação() {
