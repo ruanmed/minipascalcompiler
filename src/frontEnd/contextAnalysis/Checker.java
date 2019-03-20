@@ -21,7 +21,8 @@ public class Checker implements Visitor {
 	public void visitComandoAtribuição(ComandoAtribuiçãoNode CA) {
 		// TODO Auto-generated method stub
 		// REGRA T1. O tipo da expressão avaliada deve ser compatível com o tipo da variável.
-		if (CA.V != null) CA.V.visit(this);
+		// REGRA E1. A variável deve ter sido declarada previamente.
+		if (CA.V != null) CA.V.visit(this); // Isto cobre a regra E1.
 		
 		if (CA.E != null) CA.E.visit(this);
 		boolean erro = false;
@@ -99,10 +100,12 @@ public class Checker implements Visitor {
 	@Override
 	public void visitDeclaraçãoDeVariável(DeclaraçãoDeVariávelNode D) {
 		// TODO Auto-generated method stub
+		// REGRA E2. Os identificadores presentes na lista de ids não podem ter sido declarados
+		// anteriormente no mesmo bloco da declaração atual
 		ListaDeIdsNode temp = D.LI;
 		Node atributo = D;
 		while (temp != null) {
-			this.idTable.enter(temp.I, atributo);
+			this.idTable.enter(temp.I, atributo); // Se já tiverem sido declarados, informará erro.
 			temp = temp.próximaLI;
 		}
 		if (D.próximaD != null) {
@@ -127,8 +130,20 @@ public class Checker implements Visitor {
 		// TODO Auto-generated method stub
 		// REGRA T3. Os tipos de ambas expressões simples avaliadas devem ser iguais
 		if (E.E1 != null) E.E1.visit(this);
-		if (E.O != null) E.O.visit(this);
-		if (E.E2 != null) E.E2.visit(this);
+//		if (E.O != null) E.O.visit(this);
+//		if (E.E2 != null) E.E2.visit(this);
+
+		if (E.O != null && E.E2 != null) {
+			E.E2.visit(this);
+			if (E.E1.tipo != E.E2.tipo) {
+				System.out.println("ERRO - CONTEXTO\nOperandos possuem tipos"
+						+ " na linha " + E.O.O.getLine() + " coluna " + E.O.O.getColumn() 
+						+ " para o operador relacional " + E.O.O.getSpelling() + " ." 
+						+ "\nO primeiro operando possui tipo " + E.E1.tipo + " [" + Token.spellings[E.E1.tipo] + "]" 
+						+ " enquanto o segundo operando possui tipo " + E.E2.tipo + " [" + Token.spellings[E.E2.tipo] + "].");
+			}
+		}
+		
 	}
 
 	@Override
@@ -207,7 +222,14 @@ public class Checker implements Visitor {
 	@Override
 	public void visitSeletor(SeletorNode S) {
 		// TODO Auto-generated method stub
+		// REGRA T6. O tipo da expressão avaliada entre colchetes deve ser o tipo simples integer.
 		if (S.E != null) S.E.visit(this);
+		if (S.E.tipo != TabelaDeIdentificação.INTEGER) {
+			System.out.println("ERRO - CONTEXTO\nTipos incompatíveis"
+					+ " na linha " + " coluna " + " do índice do seletor." 
+					+ "\nA expressão possui tipo " + S.E.tipo + " [" + Token.spellings[S.E.tipo] + "]" 
+					+ " enquanto era esperado o tipo " + TabelaDeIdentificação.INTEGER + " [" + Token.spellings[TabelaDeIdentificação.INTEGER] + "].");
+		}
 		if (S.próximoS != null) {
 			S.próximoS.visit(this);
 		}
@@ -250,9 +272,16 @@ public class Checker implements Visitor {
 	@Override
 	public void visitTipoAgregado(TipoAgregadoNode TA) {
 		// TODO Auto-generated method stub
+		// REGRA T8.1 Ambos literais devem ser int-literal.
+		// REGRA T8.2 O literal mais à esquerda deve ser menor ou igual ao literal mais à direita.
+		// T8.1 já foi garantida pelas adapatações da gramática da linguagem.
 		if (TA.T != null) TA.T.visit(this);
 		if (TA.INDEX_1 != null) TA.INDEX_1.visit(this);
 		if (TA.INDEX_2  != null) TA.INDEX_2.visit(this);
+		if (Integer.parseInt(TA.INDEX_1.getSpelling()) > Integer.parseInt(TA.INDEX_2.getSpelling())) {
+			System.out.println("ERRO - CONTEXTO\nÍndices inválidos"
+					+ " na linha " + " coluna " + " na declaração do tipo agregado.");
+		}
 	}
 
 	@Override
@@ -278,7 +307,10 @@ public class Checker implements Visitor {
 	@Override
 	public void visitVariável(VariávelNode V) {
 		// TODO Auto-generated method stub
-		V.declaração = idTable.retrieve(V.N);
+		// REGRA E3. Toda variável deve ter sido declarada previamente
+		// REGRA T9. Caso o seletor não seja vazio, o identificador deve ser referente a uma
+		// variável de tipo agregado declarada anteriormente.
+		V.declaração = idTable.retrieve(V.N);	// Responsável pelas regras E1 e E3.
 		if (V.declaração instanceof DeclaraçãoDeVariávelNode) {
 			
 			TipoNode ti = ((DeclaraçãoDeVariávelNode) V.declaração).T;
@@ -308,3 +340,34 @@ public class Checker implements Visitor {
 		return this.idTable;
 	}
 }
+
+//1.3.1  Regras de escopo
+//
+//----> REGRA E1. A variável deve ter sido declarada previamente.
+//
+//----> REGRA E2. Os identificadores presentes na lista de ids não podem ter sido declarados
+//anteriormente no mesmo bloco da declaração atual.
+//
+//----> REGRA E3. Toda variável deve ter sido declarada previamente.
+//
+//
+//1.3.2  Regras de tipos
+//----> REGRA T1. O tipo da expressão avaliada deve ser compatível com o tipo da variável.
+//
+//----> REGRA T2. O tipo da expressão avaliada deve ser um valor lógico (booleano).
+//
+//----> REGRA T3. Os tipos de ambas expressões simples avaliadas devem ser iguais.
+//
+//REGRA T4. O tipo da expressão simples avaliada deve ser igual ao tipo do termo
+//
+//----> REGRA T5. O tipo da expressão avaliada deve ser um valor lógico (booleano).
+//
+//----> REGRA T6. O tipo da expressão avaliada deve ser o tipo simples integer.
+//
+//REGRA T7. O tipo do termo avaliado deve ser igual ao tipo do fator avaliado.
+//
+//----> REGRA T8.1 Ambos literais devem ser int-literal.
+//----> REGRA T8.2 O literal mais à esquerda deve ser menor ou igual ao literal mais à direita.
+//
+//REGRA T9. Caso o seletor não seja vazio, o identificador deve ser referente a uma
+//variável de tipo agregado declarada anteriorm
