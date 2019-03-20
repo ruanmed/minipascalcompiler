@@ -6,6 +6,7 @@ var a, b, c: integer;
 var d, e, j, y, u: real;
 var x : array[10 .. 20] of integer;
 var h, n: boolean;
+ohasua
 
 begin
 	if (a or b)  then
@@ -21,7 +22,8 @@ begin
 			d:=c;
 			y:=x;
 			x:=y;
-			while (x < (y+u+j))
+			y[1]:=a;
+			while (x < (y+a+j))
 			do
 			x:=a;
 		end

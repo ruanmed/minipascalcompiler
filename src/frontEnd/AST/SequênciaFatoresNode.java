@@ -6,6 +6,7 @@ public class SequênciaFatoresNode extends Node {
 	public OperadorNode O;
 	public FatorNode F;
 	public SequênciaFatoresNode próximaS;
+	public int tipo;
 	
 	public void visit(Visitor v) {
 		v.visitSequênciaFatores(this);

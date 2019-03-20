@@ -119,7 +119,7 @@ public class Parser {
 		else if (currentToken.getType() == Token.BEGIN)
 			comAST = parseComandoComposto();
 		else {
-			System.out.println("ERRO - SINTÁTICO\\nToken lido inesperado: [" + currentToken.getSpelling() +
+			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
 					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
 					" coluna "+ currentToken.getColumn() + 
 					", enquanto era esperado um \"" + 
@@ -294,7 +294,7 @@ public class Parser {
 			accept(Token.RPARENTHESIS);
 		}
 		else {
-			System.out.println("ERRO - SINTÁTICO\\nToken lido inesperado: [" + currentToken.getSpelling() +
+			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
 					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
 					" coluna "+ currentToken.getColumn() + 
 					", enquanto era esperado um \"" + 
@@ -377,7 +377,7 @@ public class Parser {
 		else if (currentToken.getType() == Token.FLOATLITERAL)
 			tokenAST = accept();
 		else {
-			System.out.println("ERRO - SINTÁTICO\\nToken lido inesperado: [" + currentToken.getSpelling() +
+			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
 					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
 					" coluna "+ currentToken.getColumn() + 
 					", enquanto era esperado um \"" + 
@@ -398,7 +398,7 @@ public class Parser {
 				tokenAST = accept();
 				break;
 			default:
-				System.out.println("ERRO - SINTÁTICO\\nToken lido inesperado: [" + currentToken.getSpelling() +
+				System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
 						"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
 						" coluna "+ currentToken.getColumn() + 
 						", enquanto era esperado um \"" + 
@@ -418,7 +418,7 @@ public class Parser {
 				tokenAST = accept();
 				break;
 			default:
-				System.out.println("ERRO - SINTÁTICO\\nToken lido inesperado: [" + currentToken.getSpelling() +
+				System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
 						"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
 						" coluna = "+ currentToken.getColumn() + 
 						", enquanto era esperado um \"" + 
@@ -439,7 +439,7 @@ public class Parser {
 				tokenAST = accept();
 				break;
 			default:
-				System.out.println("ERRO - SINTÁTICO\\nToken lido inesperado: [" + currentToken.getSpelling() +
+				System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
 						"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
 						" coluna "+ currentToken.getColumn() + 
 						", enquanto era esperado um \"" + 
@@ -529,7 +529,7 @@ public class Parser {
 				|| currentToken.getType() == Token.BOOLEAN)
 			tipoAST = parseTipoSimples();
 		else {
-			System.out.println("ERRO - SINTÁTICO\\nToken lido inesperado: [" + currentToken.getSpelling() +
+			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
 					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
 					" coluna "+ currentToken.getColumn() + 
 					", enquanto era esperado um \"" + 
@@ -566,7 +566,7 @@ public class Parser {
 				tokenAST = accept();
 				break;
 			default:
-				System.out.println("ERRO - SINTÁTICO\\nToken lido inesperado: [" + currentToken.getSpelling() +
+				System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
 						"] (token do tipo " + currentToken.getType() + "), in line " + currentToken.getLine() + 
 						" coluna "+ currentToken.getColumn() + 
 						", enquanto era esperado um \"" + 
