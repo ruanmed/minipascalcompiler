@@ -8,14 +8,24 @@ public class Scanner {
 	private StringBuffer 	currentSpelling;
 	private TextFileReader 	fileText;
 	int						currentLine, currentColumn;
-		
+	public String indent() {
+		String retorno = new String("\t");
+		return retorno;
+	}
+	
+	public void cabeçalhoErro() {
+		System.out.println(indent() + "!ERRO - ANÁLISE LÉXICA");
+		System.out.println(indent() + "  * Linha: " + getCurrentLine() + ", Posição: " + getCurrentColumn());
+		System.out.print(indent() +   "  └ ");
+	}
+	
 	public Scanner(TextFileReader fileText) {
 		this.fileText = fileText;
 		setCurrentChar(fileText.getNextChar());
 		setCurrentType(0);
 		setCurrentSpelling(new StringBuffer(""));
 		setCurrentLine(1);
-		setCurrentColumn(2);	//	Começa na coluna 2 porque já foi feita a leitura de um caracter
+		setCurrentColumn(1);	//	Começa na coluna 1 porque já foi feita a leitura de um caracter
 	}
 	
 	public void setCurrentLine(int currentLine) {
@@ -58,29 +68,27 @@ public class Scanner {
 	}
 	
 	private void take(char expectedChar) {
-		if(getCurrentChar() == expectedChar) 
-		{
-			currentSpelling.append(getCurrentChar());
-			setCurrentChar(fileText.getNextChar());
-			setCurrentColumn(getCurrentColumn()+1);
+		if(getCurrentChar() == expectedChar) {
+			take();
 		}
 		else { 	//	Erro de caracter não experado
-			System.out.println("ERRO\n Esperado: " + expectedChar 
+			cabeçalhoErro();
+			System.out.println("Esperado: " + expectedChar 
 					+ " na linha " + getCurrentLine() + 
 					" coluna "+ getCurrentColumn());
 		}
 	}
 	
 	private void take() { 	//	takeIt()
-		currentSpelling.append(getCurrentChar());
-		setCurrentChar(fileText.getNextChar());
-		
 		if(getCurrentChar()=='\n') { //quebra de linha
 			setCurrentLine(getCurrentLine()+1);
 			setCurrentColumn(1);
 		}
 		else
 			setCurrentColumn(getCurrentColumn()+1);
+		
+		currentSpelling.append(getCurrentChar());
+		setCurrentChar(fileText.getNextChar());
 	}
 	
 	private boolean isDigit (char c) {	//	Verifica se é um digito
@@ -118,8 +126,9 @@ public class Scanner {
 			case '!':
 				take();
 //				while (isGraphic(getCurrentChar()) || getCurrentChar() == '\t')	// Ignorar caractere gráfico
-				while (getCurrentChar() != '\n')	// Vai até a quebra de linha
+				while (getCurrentChar() != '\n') {	// Vai até a quebra de linha
 					take();
+				}
 			case ' ': case '﻿': case '\t': case '\r': case '\n' : case '\u0088' : case '\u0089' :
 			case '\u008A' : case '\u000B' : 
 				take();
@@ -283,6 +292,11 @@ public class Scanner {
 		}
 		else { 	// 	Erro no análise léxica, 
 				// 	Não foi possível classificar como token da linguagem
+			cabeçalhoErro();
+			System.out.println("O caractere lido [" + getCurrentChar() 
+			+ "] (código de caractere " + (int) getCurrentChar() + ") "
+					+ "não pode ser utilizado no Mini-Pascal."
+			);
 			/*
 			System.out.println("ERROR - LEXICAL\nThe character read: [" + getCurrentChar() 
 					+ "] (character code " + (int) getCurrentChar() + "), in line " + getCurrentLine() + 
@@ -319,12 +333,12 @@ public class Scanner {
 //			else {
 				setCurrentSpelling(new StringBuffer(""));
 				setCurrentType(scanToken()); 
-							
 				return new Token(	getCurrentType(), 
 						currentSpelling.toString(), 
 						getCurrentLine(), 
-						getCurrentColumn()-currentSpelling.length()-1
+						getCurrentColumn() -currentSpelling.length()
 						);
+				
 //			}
 //		}	
 	}		

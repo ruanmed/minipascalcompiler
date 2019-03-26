@@ -1,4 +1,6 @@
-﻿and array begin boolean do else end false float-lit identificador if integer int-lit of or program real then true var while >= > = <> <= < + ] [ ; : / .. . , * ) ( - 
+﻿! LEXICO 1 - TESTE TOKENS EM SEQUÊNCIA
+
+and array begin boolean do else end false float-lit identificador if integer int-lit of or program real then true var while >= > = <> <= < + ] [ ; : / .. . , * ) ( - 
 
 
 and

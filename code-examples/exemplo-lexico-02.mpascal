@@ -1,0 +1,10 @@
+! LEXICO 2 - TESTE TOKENS VÁLIDOS E INVÁLIDOS
+tokenvalido
+tokeninválido
+! tokeninválido
+@#$
+!@#$%'~
+	maisumteste
+	abcdefghijklmnopqrstuvwxyz
+	a e i o u
+	á e i o ú

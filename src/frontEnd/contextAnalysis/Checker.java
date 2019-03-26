@@ -5,13 +5,30 @@ import frontEnd.syntaxAnalysis.*;
 
 public class Checker implements Visitor {
 
-	private TabelaDeIdentificação idTable = new TabelaDeIdentificação();;
+	private TabelaDeIdentificação idTable = new TabelaDeIdentificação();
+	private int line;
+	private int column;
 	
+	
+	public String indent() {
+		String retorno = new String("\t");
+		return retorno;
+	}
+	public void cabeçalhoErro() {
+		System.out.println(indent() + "!ERRO - ANÁLISE DE CONTEXTO");
+		System.out.print(indent() +   "  └ ");
+	}
+	public void cabeçalhoErro(int linha, int posição) {
+		System.out.println(indent() + "!ERRO - ANÁLISE DE CONTEXTO");
+		System.out.println(indent() + "  * Linha: " + line + ", Posição: " + column);
+		System.out.print(indent() +   "  └ ");
+	}
 	public Checker() {
 		// TODO Auto-generated constructor stub
 		this.idTable = new TabelaDeIdentificação();
 	}
-
+	
+	
 	public void check (ProgramaNode P) {
 		System.out.println ("---> Iniciando identificação de nomes");
 		P.visit(this);
@@ -41,10 +58,13 @@ public class Checker implements Visitor {
 			default:
 				break;
 		}
-		if (erro) System.out.println("ERRO - CONTEXTO\nAtribuição com tipos incompatíveis"
+		if (erro) {
+			cabeçalhoErro();
+			System.out.println("Atribuição com tipos incompatíveis"
 				+ " na linha " + CA.V.N.getLine() + " coluna " + CA.V.N.getColumn() + "." 
 				+ "\nA variável " + CA.V.N.getSpelling() + " possui tipo " + CA.V.tipo + " [" + Token.spellings[CA.V.tipo] + "]" 
 				+ " enquanto a expressão possui tipo " + CA.E.tipo + " [" + Token.spellings[CA.E.tipo] + "].");
+		}
 	}
 
 	@Override
@@ -59,7 +79,8 @@ public class Checker implements Visitor {
 		// REGRA T2. O tipo da expressão avaliada deve ser um valor lógico (booleano).
 		if (CC.E != null) CC.E.visit(this);
 		if (CC.E.tipo != TabelaDeIdentificação.BOOLEAN) {
-			System.out.println("ERRO - CONTEXTO\nTipos incompatíveis"
+			cabeçalhoErro();
+			System.out.println("Tipos incompatíveis"
 					+ " na linha " + " coluna " + " do comando condicional." 
 					+ "\nA expressão possui tipo " + CC.E.tipo + " [" + Token.spellings[CC.E.tipo] + "]" 
 					+ " enquanto era esperado o tipo " + TabelaDeIdentificação.BOOLEAN + " [" + Token.spellings[TabelaDeIdentificação.BOOLEAN] + "].");
@@ -74,7 +95,8 @@ public class Checker implements Visitor {
 		// REGRA T5. O tipo da expressão avaliada deve ser um valor lógico (booleano).
 		if (CC.E != null) CC.E.visit(this);
 		if (CC.E.tipo != TabelaDeIdentificação.BOOLEAN) {
-			System.out.println("ERRO - CONTEXTO\nTipos incompatíveis"
+			cabeçalhoErro();
+			System.out.println("Tipos incompatíveis"
 					+ " na linha " + " coluna " + " do comando iterativo." 
 					+ "\nA expressão possui tipo " + CC.E.tipo + " [" + Token.spellings[CC.E.tipo] + "]" 
 					+ " enquanto era esperado o tipo " + TabelaDeIdentificação.BOOLEAN + " [" + Token.spellings[TabelaDeIdentificação.BOOLEAN] + "].");
@@ -136,7 +158,8 @@ public class Checker implements Visitor {
 		if (E.O != null && E.E2 != null) {
 			E.E2.visit(this);
 			if (E.E1.tipo != E.E2.tipo) {
-				System.out.println("ERRO - CONTEXTO\nOperandos"
+				cabeçalhoErro();
+				System.out.println("Operandos"
 						+ " na linha " + E.O.O.getLine() + " coluna " + E.O.O.getColumn() 
 						+ " possuem tipos incompatíveis para o operador relacional " + E.O.O.getSpelling() + " ." 
 						+ "\nO primeiro operando possui tipo " + E.E1.tipo + " [" + Token.spellings[E.E1.tipo] + "]" 
@@ -167,7 +190,8 @@ public class Checker implements Visitor {
 		if (ES.ST != null) {
 			ES.ST.visit(this);
 			if (ES.T.tipo != ES.ST.tipo) {	// REGRA T4
-				System.out.println("ERRO - CONTEXTO\nOperandos"
+				cabeçalhoErro();
+				System.out.println("Operandos"
 						+ " na linha " + ES.ST.O.O.getLine() + " coluna " + ES.ST.O.O.getColumn() 
 						+ " possuem tipos incompatíveis para o operador " + ES.ST.O.O.getSpelling() + " ." 
 						+ "\nO primeiro operando possui tipo " + ES.T.tipo + " [" + Token.spellings[ES.T.tipo] + "]" 
@@ -257,7 +281,8 @@ public class Checker implements Visitor {
 		// REGRA T6. O tipo da expressão avaliada entre colchetes deve ser o tipo simples integer.
 		if (S.E != null) S.E.visit(this);
 		if (S.E.tipo != TabelaDeIdentificação.INTEGER) {
-			System.out.println("ERRO - CONTEXTO\nTipos incompatíveis"
+			cabeçalhoErro();
+			System.out.println("Tipos incompatíveis"
 					+ " na linha " + " coluna " + " do índice do seletor." 
 					+ "\nA expressão possui tipo " + S.E.tipo + " [" + Token.spellings[S.E.tipo] + "]" 
 					+ " enquanto era esperado o tipo " + TabelaDeIdentificação.INTEGER + " [" + Token.spellings[TabelaDeIdentificação.INTEGER] + "].");
@@ -278,7 +303,8 @@ public class Checker implements Visitor {
 		if (SF.próximaS != null) {
 			SF.próximaS.visit(this);
 			if (SF.F.tipo != SF.próximaS.tipo) {	// REGRA T4
-				System.out.println("ERRO - CONTEXTO\nOperandos"
+				cabeçalhoErro();
+				System.out.println("Operandos"
 						+ " na linha " + SF.próximaS.O.O.getLine() + " coluna " + SF.próximaS.O.O.getColumn() 
 						+ " possuem tipos incompatíveis para o operador " + SF.próximaS.O.O.getSpelling() + " ." 
 						+ "\nO primeiro operando possui tipo " + SF.F.tipo + " [" + Token.spellings[SF.F.tipo] + "]" 
@@ -308,7 +334,8 @@ public class Checker implements Visitor {
 		if (ST.próximaS != null) {
 			ST.próximaS.visit(this);
 			if (ST.T.tipo != ST.próximaS.tipo) {	// REGRA T4
-				System.out.println("ERRO - CONTEXTO\nOperandos"
+				cabeçalhoErro();
+				System.out.println("Operandos"
 						+ " na linha " + ST.próximaS.O.O.getLine() + " coluna " + ST.próximaS.O.O.getColumn() 
 						+ " possuem tipos incompatíveis para o operador " + ST.próximaS.O.O.getSpelling() + " ." 
 						+ "\nO primeiro operando possui tipo " + ST.T.tipo + " [" + Token.spellings[ST.T.tipo] + "]" 
@@ -341,7 +368,8 @@ public class Checker implements Visitor {
 		if (T.SF != null) {
 			T.SF.visit(this);
 			if (T.F.tipo != T.SF.tipo) {	// REGRA T4
-				System.out.println("ERRO - CONTEXTO\nOperandos"
+				cabeçalhoErro();
+				System.out.println("Operandos"
 						+ " na linha " + T.SF.O.O.getLine() + " coluna " + T.SF.O.O.getColumn() 
 						+ " possuem tipos incompatíveis para o operador " + T.SF.O.O.getSpelling() + " ." 
 						+ "\nO primeiro operando possui tipo " + T.F.tipo + " [" + Token.spellings[T.F.tipo] + "]" 
@@ -370,7 +398,8 @@ public class Checker implements Visitor {
 		if (TA.INDEX_1 != null) TA.INDEX_1.visit(this);
 		if (TA.INDEX_2  != null) TA.INDEX_2.visit(this);
 		if (Integer.parseInt(TA.INDEX_1.getSpelling()) > Integer.parseInt(TA.INDEX_2.getSpelling())) {
-			System.out.println("ERRO - CONTEXTO\nÍndices inválidos"
+			cabeçalhoErro();
+			System.out.println("Índices inválidos"
 					+ " na linha " + " coluna " + " na declaração do tipo agregado.");
 		}
 	}
@@ -413,7 +442,8 @@ public class Checker implements Visitor {
 				V.tipo = ((TipoSimplesNode) temp).N.getType();
 				// Se for um tipo agregado e não houverem seletores eu não sei o que deve acontecer
 				if (V.S == null)  { // REGRA T9
-//					System.out.println("ERRO - CONTEXTO\nO tipo da variável1 " + V.N.getSpelling()
+//					cabeçalhoErro();
+//					System.out.println("O tipo da variável1 " + V.N.getSpelling()
 //					+ " na linha " + V.N.getLine() + " coluna " + V.N.getColumn() 
 //					+ " deve ser um array.");
 //					+ "\nO primeiro operando possui tipo " + ST.T.tipo + " [" + Token.spellings[ST.T.tipo] + "]" 
@@ -429,7 +459,8 @@ public class Checker implements Visitor {
 				V.tipo = ((TipoSimplesNode) ti).N.getType(); 
 				// Se for um tipo simples e houver um seletor, então deve retornar erro.
 				if (V.S != null) { // REGRA T9
-					System.out.println("ERRO - CONTEXTO\nO tipo da variável " + V.N.getSpelling()
+					cabeçalhoErro();
+					System.out.println("O tipo da variável " + V.N.getSpelling()
 					+ " na linha " + V.N.getLine() + " coluna " + V.N.getColumn() 
 					+ " deve ser um array.");
 //					+ "\nO primeiro operando possui tipo " + ST.T.tipo + " [" + Token.spellings[ST.T.tipo] + "]" 

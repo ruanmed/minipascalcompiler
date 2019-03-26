@@ -18,18 +18,32 @@ public class Parser {
 		progAST = parsePrograma();
 		return progAST;
 	}
+	public String indent() {
+		String retorno = new String("\t");
+		return retorno;
+	}
+	public void cabeçalhoErro() {
+		System.out.println(indent() + "!ERRO - ANÁLISE SINTÁTICA");
+		System.out.println(indent() + "  * Linha: " + currentToken.getLine() + ", Posição: " + currentToken.getColumn());
+		System.out.print(indent() +   "  └ ");
+	}
+	public void interromperAnálise() {
+		System.out.println(indent() + "A ANÁLISE SINTÁTICA FOI INTERROMPIDA DEVIDO A ERROS OCORRIDOS");
+		System.exit(0);
+	}
 	public Token accept(int expectedType) {
 		Token token_lido = new Token(currentToken);
 		if (currentToken.getType() == expectedType)
 			currentToken = scanner.scan();
 		else {	//	Erro na análise sintática
 				//	Não foi possível achar regra de derivação - token inesperado
-			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
-					" coluna "+ currentToken.getColumn() + 
-					", enquanto era experado um \"" + Token.spellings[expectedType] + 
+			cabeçalhoErro();
+			System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+					"] (token do tipo " + currentToken.getType() + ")" + 
+					" enquanto era experado um \"" + Token.spellings[expectedType] + 
 					"\" (token do tipo " + expectedType + ")." 
 					);
+			interromperAnálise();
 		}
 		return token_lido;
 	}
@@ -119,15 +133,16 @@ public class Parser {
 		else if (currentToken.getType() == Token.BEGIN)
 			comAST = parseComandoComposto();
 		else {
-			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
-					" coluna "+ currentToken.getColumn() + 
-					", enquanto era esperado um \"" + 
+			cabeçalhoErro();
+			System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+					"] (token do tipo " + currentToken.getType() + ")" + 
+					" enquanto era esperado um \"" + 
 					Token.spellings[Token.ID] + "\" (token do tipo " + Token.ID + "), \"" +
 					Token.spellings[Token.IF] + "\" (token do tipo " + Token.IF + "), \"" +
 					Token.spellings[Token.WHILE] + "\" (token do tipo " + Token.WHILE + ") ou \"" +
 					Token.spellings[Token.BEGIN] + "\" (token do tipo " + Token.BEGIN + ")." 
 					);
+			interromperAnálise();
 		}
 		return comAST;
 	}
@@ -177,12 +192,13 @@ public class Parser {
 //		else if (currentToken.getType() == Token.PROCEDURE)
 //			parseDeclaraçãoDeProcedimento();
 		else {
-			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
-					" coluna "+ currentToken.getColumn() + 
-					", enquanto era esperado um \"" + 
+			cabeçalhoErro();
+			System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+					"] (token do tipo " + currentToken.getType() + ")" +
+					" enquanto era esperado um \"" + 
 					Token.spellings[Token.VAR] + "\" (token do tipo " + Token.VAR + ")." 
 					);
+			interromperAnálise();
 		}
 		return declAST;
 	}
@@ -294,10 +310,10 @@ public class Parser {
 			accept(Token.RPARENTHESIS);
 		}
 		else {
-			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
-					" coluna "+ currentToken.getColumn() + 
-					", enquanto era esperado um \"" + 
+			cabeçalhoErro();
+			System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+					"] (token do tipo " + currentToken.getType() + ")" + 
+					" enquanto era esperado um \"" + 
 					Token.spellings[Token.ID] + "\" (token do tipo " + Token.ID + "), \"" +
 					Token.spellings[Token.TRUE] + "\" (token do tipo " + Token.TRUE + "), \"" +
 					Token.spellings[Token.FALSE] + "\" (token do tipo " + Token.FALSE + "), \"" +
@@ -305,6 +321,7 @@ public class Parser {
 					Token.spellings[Token.FLOATLITERAL] + "\" (token do tipo " + Token.FLOATLITERAL + ") ou \"" +
 					Token.spellings[Token.LPARENTHESIS] + "\" (token do tipo " + Token.LPARENTHESIS + ")." 
 					);
+			interromperAnálise();
 		}
 		return fatorAST;
 	}
@@ -377,15 +394,16 @@ public class Parser {
 		else if (currentToken.getType() == Token.FLOATLITERAL)
 			tokenAST = accept();
 		else {
-			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
-					" coluna "+ currentToken.getColumn() + 
-					", enquanto era esperado um \"" + 
+			cabeçalhoErro();
+			System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+					"] (token do tipo " + currentToken.getType() + ")" + 
+					" enquanto era esperado um \"" + 
 					Token.spellings[Token.TRUE] + "\" (token do tipo " + Token.TRUE + "), \"" +
 					Token.spellings[Token.FALSE] + "\" (token do tipo " + Token.FALSE + "), \"" +
 					Token.spellings[Token.INTLITERAL] + "\" (token do tipo " + Token.INTLITERAL + ") ou \"" +
 					Token.spellings[Token.FLOATLITERAL] + "\" (token do tipo " + Token.FLOATLITERAL + ")." 
 					);
+			interromperAnálise();
 		}
 		litAST = new LiteralNode(tokenAST);		
 		return litAST;
@@ -398,14 +416,15 @@ public class Parser {
 				tokenAST = accept();
 				break;
 			default:
-				System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-						"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
-						" coluna "+ currentToken.getColumn() + 
-						", enquanto era esperado um \"" + 
+				cabeçalhoErro();
+				System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+						"] (token do tipo " + currentToken.getType() + ")" + 
+						" enquanto era esperado um \"" + 
 						Token.spellings[Token.OPSUM] + "\" (token do tipo " + Token.OPSUM + "), \"" +
 						Token.spellings[Token.OPSUB] + "\" (token do tipo " + Token.OPSUB + ") ou \"" +
 						Token.spellings[Token.OR] + "\" (token do tipo " + Token.OR + ")." 
 						);
+				interromperAnálise();
 		}
 		opAST = new OperadorNode(tokenAST);
 		return opAST;
@@ -418,14 +437,15 @@ public class Parser {
 				tokenAST = accept();
 				break;
 			default:
-				System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-						"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
-						" coluna = "+ currentToken.getColumn() + 
-						", enquanto era esperado um \"" + 
+				cabeçalhoErro();
+				System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+						"] (token do tipo " + currentToken.getType() + ")" + 
+						" enquanto era esperado um \"" + 
 						Token.spellings[Token.OPMULT] + "\" (token do tipo " + Token.OPMULT + "), \"" +
 						Token.spellings[Token.OPDIV] + "\" (token do tipo " + Token.OPDIV + ") ou \"" +
 						Token.spellings[Token.AND] + "\" (token do tipo " + Token.AND + ")." 
 						);
+				interromperAnálise();
 		}
 		opAST = new OperadorNode(tokenAST);
 		return opAST;
@@ -439,10 +459,10 @@ public class Parser {
 				tokenAST = accept();
 				break;
 			default:
-				System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-						"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
-						" coluna "+ currentToken.getColumn() + 
-						", enquanto era esperado um \"" + 
+				cabeçalhoErro();
+				System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+						"] (token do tipo " + currentToken.getType() + ")" + 
+						" enquanto era esperado um \"" + 
 						Token.spellings[Token.OPLOWERTHN] + "\" (token do tipo " + Token.OPLOWERTHN + "), \"" +
 						Token.spellings[Token.OPGREATTHN] + "\" (token do tipo " + Token.OPGREATTHN + "), \"" +
 						Token.spellings[Token.OPLOWOREQ] + "\" (token do tipo " + Token.OPLOWOREQ + "), \"" +
@@ -450,6 +470,7 @@ public class Parser {
 						Token.spellings[Token.OPEQUAL] + "\" (token do tipo " + Token.OPEQUAL + ") ou \"" +
 						Token.spellings[Token.OPDIFF] + "\" (token do tipo " + Token.OPDIFF + ")." 
 						);
+				interromperAnálise();
 		}	
 		opAST = new OperadorNode(tokenAST);
 		return opAST;
@@ -529,15 +550,16 @@ public class Parser {
 				|| currentToken.getType() == Token.BOOLEAN)
 			tipoAST = parseTipoSimples();
 		else {
-			System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-					"] (token do tipo " + currentToken.getType() + "), na linha " + currentToken.getLine() + 
-					" coluna "+ currentToken.getColumn() + 
-					", enquanto era esperado um \"" + 
+			cabeçalhoErro();
+			System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+					"] (token do tipo " + currentToken.getType() + ")" + 
+					" enquanto era esperado um \"" + 
 					Token.spellings[Token.ARRAY] + "\" (token do tipo " + Token.ARRAY + "), \"" +
 					Token.spellings[Token.INTEGER] + "\" (token do tipo " + Token.INTEGER + "), \"" +
 					Token.spellings[Token.REAL] + "\" (token do tipo " + Token.REAL + ") ou \"" +
 					Token.spellings[Token.BOOLEAN] + "\" (token do tipo " + Token.BOOLEAN + ")." 
 					);
+			interromperAnálise();
 		}
 		return tipoAST;
 	}
@@ -566,14 +588,15 @@ public class Parser {
 				tokenAST = accept();
 				break;
 			default:
-				System.out.println("ERRO - SINTÁTICO\nToken lido inesperado: [" + currentToken.getSpelling() +
-						"] (token do tipo " + currentToken.getType() + "), in line " + currentToken.getLine() + 
-						" coluna "+ currentToken.getColumn() + 
-						", enquanto era esperado um \"" + 
+				cabeçalhoErro();
+				System.out.println("Token lido inesperado: [" + currentToken.getSpelling() +
+						"] (token do tipo " + currentToken.getType() + ")" + 
+						" enquanto era esperado um \"" + 
 						Token.spellings[Token.INTEGER] + "\" (token do tipo " + Token.INTEGER + "), \"" +
 						Token.spellings[Token.REAL] + "\" (token do tipo " + Token.REAL + ") ou \"" +
 						Token.spellings[Token.BOOLEAN] + "\" (token do tipo " + Token.BOOLEAN + ")." 
 						);
+				interromperAnálise();
 		}
 		tsimpAST = new TipoSimplesNode(tokenAST);
 		return tsimpAST;
