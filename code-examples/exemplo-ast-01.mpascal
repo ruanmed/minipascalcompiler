@@ -1,0 +1,14 @@
+! AST 1 - TESTE SINTAXE VÁLIDA
+program programa1; 
+    begin 
+		if 2 > 1 
+		then 
+		begin
+			x := 3;
+			x := x *2;
+		end
+		else 
+			y := 2
+		;
+    end
+.

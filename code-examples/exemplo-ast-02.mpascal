@@ -1,0 +1,27 @@
+! AST 2 - Declaração de variáveis - Sintaxe válida e contexto inválido 
+program test;
+
+var a, b: real;
+var x : array[10 .. 20] of integer;
+
+begin
+	if (a or b)  then
+		begin
+			x := y;
+			h := a;
+		end
+	else
+		begin
+			a:=b;
+			d:=e;
+			y[1]:=a;
+			while (x < (y+a+j))
+			do
+			x:=a;
+		end
+	;
+	
+	begin
+	end;
+
+end.

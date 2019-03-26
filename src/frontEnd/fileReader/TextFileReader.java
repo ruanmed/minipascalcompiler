@@ -15,7 +15,14 @@ public class TextFileReader {
 //		System.out.println("-> Linha: " + currentToken.getLine() + ", Posição: " + currentToken.getColumn());
 		
 	}
-	
+	public String indent() {
+		String retorno = new String("\t");
+		return retorno;
+	}
+	public void interromperLeitura() {
+		System.out.println(indent() + "A LEITURA DO ARQUIVO FOI INTERROMPIDA DEVIDO A ERROS OCORRIDOS");
+		System.exit(0);
+	}
 	public TextFileReader(String path) {
 		try  {
 			//text = new BufferedReader(new FileReader(path));	
@@ -24,6 +31,7 @@ public class TextFileReader {
 		catch(Exception error) {
 			cabeçalhoErro();
 			System.out.println("-> Não foi possível abrir o arquivo para leitura.");
+			interromperLeitura();
 		}
 		
 		try {
@@ -32,6 +40,7 @@ public class TextFileReader {
 		catch(Exception E) {
 			cabeçalhoErro();
 			System.out.println("-> Não foi possível configurar a marcação da posição incial do arquivo.");
+			interromperLeitura();
 		}
 		
 		try {	//	Eliminando caracter Unicode Character 'ZERO WIDTH NO-BREAK SPACE' (U+FEFF)
@@ -46,6 +55,7 @@ public class TextFileReader {
 		catch(Exception E) {
 			cabeçalhoErro();
 			System.out.println("-> Não foi possível configurar a marcação da posição incial do arquivo.");
+			interromperLeitura();
 		}
 		
 	}
@@ -57,7 +67,8 @@ public class TextFileReader {
 		}
 		catch (Exception E)	{
 			cabeçalhoErro();
-			System.out.println("-> Não foi possível ler um dos caracteres do arquivo.");			
+			System.out.println("-> Não foi possível ler um dos caracteres do arquivo.");
+			interromperLeitura();
 		}
 		return current;
 	}
@@ -70,6 +81,7 @@ public class TextFileReader {
 		catch (Exception E) {
 			cabeçalhoErro();
 			System.out.println("-> Não foi possível ler um dos caracteres do arquivo.");
+			interromperLeitura();
 		}
 		return current;
 	}
@@ -84,6 +96,7 @@ public class TextFileReader {
 			catch(Exception E) { // ADICIONAR MENSAGEM PARA ARQUIVO INEXISTENTE
 				cabeçalhoErro();
 				System.out.println("-> Não foi possível ler uma das linhas do arquivo.");
+				interromperLeitura();
 			}
 			if (aux != null)
 				str = str+aux+"\n";
@@ -100,6 +113,7 @@ public class TextFileReader {
 		catch(Exception E) {
 			cabeçalhoErro();
 			System.out.println("-> Não foi possível resetar o posição do buffer do arquivo.");
+			interromperLeitura();
 		}
 	}
 	
@@ -110,6 +124,7 @@ public class TextFileReader {
 		catch(Exception E) {
 			cabeçalhoErro();
 			System.out.println("-> Não foi possível fechar o arquivo.");
+			interromperLeitura();
 		}
 	}
 }

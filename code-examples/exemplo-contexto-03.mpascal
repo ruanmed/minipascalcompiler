@@ -1,0 +1,12 @@
+! LEXICO 3 - TESTE TOKENS VÁLIDOS COM ESPAÇAMENTOS
+
+and
+						array
+begin
+
+
+boolean    aleatorio
+do else					end
+false
+			float-lit identificador2
+	if  integer  10.1

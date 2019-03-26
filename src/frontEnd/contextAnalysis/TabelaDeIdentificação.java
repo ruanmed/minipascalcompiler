@@ -13,6 +13,19 @@ public class TabelaDeIdentificação {
 	private Stack<TableLine> table = new Stack<TableLine>(); 
 	private int currentLevel = 0;
 	
+	public String indent() {
+		String retorno = new String("\t");
+		return retorno;
+	}
+	public void cabeçalhoErro() {
+		System.out.println(indent() + "!ERRO - ANÁLISE DE CONTEXTO");
+		System.out.print(indent() +   "  └ ");
+	}
+	public void cabeçalhoErro(int linha, int posição) {
+		System.out.println(indent() + "!ERRO - ANÁLISE DE CONTEXTO");
+		System.out.println(indent() + "  * Linha: " + linha + ", Posição: " + posição);
+		System.out.print(indent() +   "  └ ");
+	}
 	public TabelaDeIdentificação() {
 		// TODO Auto-generated constructor stub
 		currentLevel = 0;
@@ -29,8 +42,9 @@ public class TabelaDeIdentificação {
 		for (; c < table.size(); c++) {
 			TableLine currentLine = table.get(c); 
 			if (currentLine.level >= currentLevel && currentLine.identifier.equals(identifier)) {
-				System.out.println("ERRO - CONTEXTO\nIdentificador [" + identifier.getSpelling() +
-						"] na linha " + identifier.getLine() + " coluna " + identifier.getColumn()+  " foi declarado anteriormente.");
+				cabeçalhoErro(identifier.getLine(), identifier.getColumn());
+				System.out.println("Identificador [" + identifier.getSpelling() +
+						"] foi declarado anteriormente.");
 				break;
 			}
 		}
@@ -50,9 +64,11 @@ public class TabelaDeIdentificação {
 				break;
 			}
 		}
-		if (c == 0) // Caso não ache o identificador no loop acima, indica erro de contexto
-			System.out.println("ERRO - CONTEXTO\nIdentificador [" + identifier.getSpelling() + 
-					"]  na linha " + identifier.getLine() + " coluna " + identifier.getColumn() +  " não foi declarado anteriormente.");
+		if (c == 0) { // Caso não ache o identificador no loop acima, indica erro de contexto
+			cabeçalhoErro(identifier.getLine(), identifier.getColumn()); 
+			System.out.println("Identificador [" + identifier.getSpelling() + 
+					"] não foi declarado anteriormente.");
+		}
 		return attribute;
 	}
 	

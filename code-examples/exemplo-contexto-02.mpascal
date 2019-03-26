@@ -1,0 +1,18 @@
+! CONTEXTO 2 - REDECLARAÇÃO DE VARIÁVEL
+program programa1; 
+
+	var a, b: real;
+	var x, a, y : integer;
+
+    begin 
+		if 2 > 1 
+		then 
+		begin
+			x := 3;
+			x := x *2;
+		end
+		else 
+			y := 2
+		;
+    end
+.

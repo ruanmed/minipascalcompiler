@@ -1,0 +1,10 @@
+O caminho do arquivo-fonte especificado é ---> /home/ruan/minipascalcompiler/code-examples/exemplo-sintatico-04.mpascal
+---> ANÁLISE LÉXICA - INÍCIO
+<--- ANÁLISE LÉXICA - FIM
+
+---> ANÁLISE SINTÁTICA - INÍCIO
+	!ERRO - ANÁLISE SINTÁTICA
+	  * Linha: 5, Posição: 15
+	  └ Token lido inesperado: [10.] (token do tipo 9) enquanto era experado um "int-lit" (token do tipo 8).
+	A ANÁLISE SINTÁTICA FOI INTERROMPIDA DEVIDO A ERROS OCORRIDOS
+

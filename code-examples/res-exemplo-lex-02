@@ -1,0 +1,21 @@
+O caminho do arquivo-fonte especificado é ---> /home/ruan/minipascalcompiler/code-examples/exemplo-lexico-02.mpascal
+---> ANÁLISE LÉXICA - INÍCIO
+	!ERRO - ANÁLISE LÉXICA
+	  * Linha: 3, Posição: 9
+	  └ O caractere lido [á] (código de caractere 225) não pode ser utilizado no Mini-Pascal.
+	!ERRO - ANÁLISE LÉXICA
+	  * Linha: 5, Posição: 1
+	  └ O caractere lido [@] (código de caractere 64) não pode ser utilizado no Mini-Pascal.
+	!ERRO - ANÁLISE LÉXICA
+	  * Linha: 5, Posição: 2
+	  └ O caractere lido [#] (código de caractere 35) não pode ser utilizado no Mini-Pascal.
+	!ERRO - ANÁLISE LÉXICA
+	  * Linha: 5, Posição: 3
+	  └ O caractere lido [$] (código de caractere 36) não pode ser utilizado no Mini-Pascal.
+	!ERRO - ANÁLISE LÉXICA
+	  * Linha: 10, Posição: 2
+	  └ O caractere lido [á] (código de caractere 225) não pode ser utilizado no Mini-Pascal.
+	!ERRO - ANÁLISE LÉXICA
+	  * Linha: 10, Posição: 10
+	  └ O caractere lido [ú] (código de caractere 250) não pode ser utilizado no Mini-Pascal.
+<--- ANÁLISE LÉXICA - FIM
