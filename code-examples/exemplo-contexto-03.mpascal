@@ -1,12 +1,11 @@
-! LEXICO 3 - TESTE TOKENS VÁLIDOS COM ESPAÇAMENTOS
-
-and
-						array
-begin
-
-
-boolean    aleatorio
-do else					end
-false
-			float-lit identificador2
-	if  integer  10.1
+! CONTEXTO 3 - T5 válido, T6 erro, T8 erro
+program p1; 
+	var a: array [10 .. 5] of boolean;
+	var b: boolean;
+    begin 
+		while a[10>5] 
+		do
+			b := b
+		;
+    end
+.

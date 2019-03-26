@@ -1,0 +1,77 @@
+O caminho do arquivo-fonte especificado é ---> /home/ruan/minipascalcompiler/code-examples/exemplo-ast-02.mpascal
+---> ANÁLISE LÉXICA - INÍCIO
+<--- ANÁLISE LÉXICA - FIM
+
+---> ANÁLISE SINTÁTICA - INÍCIO
+<--- ANÁLISE SINTÁTICA - FIM
+
+---> IMPRESSÃO DA AST - INÍCIO
+---> Iniciando impressão da árvore
+000 [PROGRAMA]
+001 ├TOKEN test
+001 └[CORPO]
+002  ├[DECL-VAR]
+003  |├[TIPO-SIMPLES]
+004  ||└real
+003  |├[LI]
+004  ||└a
+005  || └[LI]
+006  ||  └b
+003  |└[DECL-VAR]
+004  | ├[TIPO-AGREGADO]
+005  | |└[TIPO-SIMPLES]
+006  | | └integer
+005  | |└10
+005  | |└20
+004  | └[LI]
+005  |  └x
+002  └[LC]
+003   ├[COM-CONDICIONAL]
+004   |├[EXPRESSÃO]
+005   ||└a
+006   || ├or
+006   || └b
+004   |├[C1]
+005   ||└[LC]
+006   || ├[COM-ATRIBUIÇÃO]
+007   || |└x
+008   || | ├=
+008   || | └y
+006   || └[LC]
+007   ||  └[COM-ATRIBUIÇÃO]
+008   ||   └h
+009   ||    ├=
+009   ||    └a
+004   |└[C2]
+005   | └[LC]
+006   |  ├[COM-ATRIBUIÇÃO]
+007   |  |└a
+008   |  | ├=
+008   |  | └b
+006   |  └[LC]
+007   |   ├[COM-ATRIBUIÇÃO]
+008   |   |└d
+009   |   | ├=
+009   |   | └e
+007   |   └[LC]
+008   |    ├[COM-ATRIBUIÇÃO]
+009   |    |└y
+010   |    | ├1
+010   |    | ├=
+010   |    | └a
+008   |    └[LC]
+009   |     └[COM-ITERATIVO]
+010   |      ├[E]
+011   |      |└x
+011   |      |└<
+011   |      |└y
+012   |      | ├+
+012   |      | └a
+013   |      |  ├+
+013   |      |  └j
+010   |      └[COM-ATRIBUIÇÃO]
+011   |       └x
+012   |        ├=
+012   |        └a
+003   └[LC]
+<--- IMPRESSÃO DA AST - FIM

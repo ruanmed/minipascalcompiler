@@ -43,7 +43,7 @@ public class TabelaDeIdentificação {
 			TableLine currentLine = table.get(c); 
 			if (currentLine.level >= currentLevel && currentLine.identifier.equals(identifier)) {
 				cabeçalhoErro(identifier.getLine(), identifier.getColumn());
-				System.out.println("Identificador [" + identifier.getSpelling() +
+				System.out.println("[E2] Identificador [" + identifier.getSpelling() +
 						"] foi declarado anteriormente.");
 				break;
 			}
@@ -66,7 +66,7 @@ public class TabelaDeIdentificação {
 		}
 		if (c == 0) { // Caso não ache o identificador no loop acima, indica erro de contexto
 			cabeçalhoErro(identifier.getLine(), identifier.getColumn()); 
-			System.out.println("Identificador [" + identifier.getSpelling() + 
+			System.out.println("[E1,E3] Identificador [" + identifier.getSpelling() + 
 					"] não foi declarado anteriormente.");
 		}
 		return attribute;

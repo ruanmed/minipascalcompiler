@@ -67,13 +67,18 @@ public class Compiler {
 		System.out.println ("<--- IMPRESSÃO DA AST - FIM");
 		System.out.println ("");
 	}
-	
+	public void tabelaIdentificação() {
+		System.out.println ("---> Tabela de Identificação - INÍCIO");
+		System.out.println(checker.getTabelaDeIdentificação().toString());
+		System.out.println ("<--- Tabela de Identificação - FIM");
+	}
 	public void análiseContexto() {
 		impressãoAST();
 		System.out.println ("---> ANÁLISE DE CONTEXTO - INÍCIO");
 		checker = new Checker();
 		checker.check(P);
 		System.out.println ("<--- ANÁLISE DE CONTEXTO - FIM");
+//		tabelaIdentificação();
 		System.out.println ("");
 	}
 	

@@ -1,18 +1,10 @@
-! CONTEXTO 2 - REDECLARAÇÃO DE VARIÁVEL
-program programa1; 
-
-	var a, b: real;
-	var x, a, y : integer;
-
+! CONTEXTO 2 - T1 erro, T2 válido
+program p1; 
+	var a: boolean;
     begin 
-		if 2 > 1 
-		then 
-		begin
-			x := 3;
-			x := x *2;
-		end
-		else 
-			y := 2
+		a := 2;				! T1
+		if a = true then	! T2
+			a := false
 		;
-    end
+	end
 .

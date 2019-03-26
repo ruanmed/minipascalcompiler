@@ -1,0 +1,47 @@
+O caminho do arquivo-fonte especificado é ---> /home/ruan/minipascalcompiler/code-examples/exemplo-con-03.mpascal
+---> ANÁLISE LÉXICA - INÍCIO
+<--- ANÁLISE LÉXICA - FIM
+
+---> ANÁLISE SINTÁTICA - INÍCIO
+<--- ANÁLISE SINTÁTICA - FIM
+
+---> IMPRESSÃO DA AST - INÍCIO
+---> Iniciando impressão da árvore
+000 [PROGRAMA]
+001 ├TOKEN p1
+001 └[CORPO]
+002  ├[DECL-VAR]
+003  |├[TIPO-AGREGADO]
+004  ||└[TIPO-SIMPLES]
+005  || └boolean
+004  ||└10
+004  ||└5
+003  |└[LI]
+004  | └a
+003  |└[DECL-VAR]
+004  | ├[TIPO-SIMPLES]
+005  | |└boolean
+004  | └[LI]
+005  |  └b
+002  └[LC]
+003   └[COM-ITERATIVO]
+004    ├[E]
+005    |└a
+006    | ├10
+006    | ├>
+006    | ├5
+004    └[COM-ATRIBUIÇÃO]
+005     └b
+006      ├=
+006      └b
+<--- IMPRESSÃO DA AST - FIM
+
+---> ANÁLISE DE CONTEXTO - INÍCIO
+---> Iniciando identificação de nomes
+	!ERRO - ANÁLISE DE CONTEXTO
+	  └ [T8] Índices inválidos na declaração de tipo agregado.
+	!ERRO - ANÁLISE DE CONTEXTO
+	  └ [T6] Tipos incompatíveis do índice do seletor. A expressão possui tipo 20 [boolean] enquanto era esperado o tipo 18 [integer].
+	!ERRO - ANÁLISE DE CONTEXTO
+	  └ [T6] Tipos incompatíveis do índice do seletor. A expressão possui tipo 20 [boolean] enquanto era esperado o tipo 18 [integer].
+<--- ANÁLISE DE CONTEXTO - FIM

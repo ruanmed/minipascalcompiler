@@ -1,0 +1,35 @@
+O caminho do arquivo-fonte especificado é ---> /home/ruan/minipascalcompiler/code-examples/exemplo-con-01.mpascal
+---> ANÁLISE LÉXICA - INÍCIO
+<--- ANÁLISE LÉXICA - FIM
+
+---> ANÁLISE SINTÁTICA - INÍCIO
+<--- ANÁLISE SINTÁTICA - FIM
+
+---> IMPRESSÃO DA AST - INÍCIO
+---> Iniciando impressão da árvore
+000 [PROGRAMA]
+001 ├TOKEN p1
+001 └[CORPO]
+002  ├[DECL-VAR]
+003  |├[TIPO-SIMPLES]
+004  ||└integer
+003  |├[LI]
+004  ||└a
+005  || └[LI]
+006  ||  └a
+002  └[LC]
+003   └[COM-ATRIBUIÇÃO]
+004    └y
+005     ├=
+005     └2
+<--- IMPRESSÃO DA AST - FIM
+
+---> ANÁLISE DE CONTEXTO - INÍCIO
+---> Iniciando identificação de nomes
+	!ERRO - ANÁLISE DE CONTEXTO
+	  * Linha: 3, Posição: 9
+	  └ [E2] Identificador [a] foi declarado anteriormente.
+	!ERRO - ANÁLISE DE CONTEXTO
+	  * Linha: 5, Posição: 3
+	  └ [E1,E3] Identificador [y] não foi declarado anteriormente.
+<--- ANÁLISE DE CONTEXTO - FIM

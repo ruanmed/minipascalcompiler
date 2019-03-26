@@ -1,0 +1,39 @@
+O caminho do arquivo-fonte especificado é ---> /home/ruan/minipascalcompiler/code-examples/exemplo-ast-01.mpascal
+---> ANÁLISE LÉXICA - INÍCIO
+<--- ANÁLISE LÉXICA - FIM
+
+---> ANÁLISE SINTÁTICA - INÍCIO
+<--- ANÁLISE SINTÁTICA - FIM
+
+---> IMPRESSÃO DA AST - INÍCIO
+---> Iniciando impressão da árvore
+000 [PROGRAMA]
+001 ├TOKEN programa1
+001 └[CORPO]
+002  └[LC]
+003   └[COM-CONDICIONAL]
+004    ├[EXPRESSÃO]
+005    |└2
+005    |└>
+005    |└1
+004    ├[C1]
+005    |└[LC]
+006    | ├[COM-ATRIBUIÇÃO]
+007    | |└x
+008    | | ├=
+008    | | └3
+006    | └[LC]
+007    |  └[COM-ATRIBUIÇÃO]
+008    |   └x
+009    |    ├=
+009    |    └x
+010    |     ├*
+010    |     ├2
+004    └[C2]
+005     └[COM-ATRIBUIÇÃO]
+006      └y
+007       ├=
+007       └2
+<--- IMPRESSÃO DA AST - FIM
+
+

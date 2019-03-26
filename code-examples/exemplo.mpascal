@@ -1,31 +1,11 @@
-! AST 3 - Geração de AST
-program test;
-
-var a, b: boolean;
-var x : array[10 .. 20] of integer;
-
-begin
-	if (a or b)  then
-		begin
-			x := y;
-		end
-	else
-		begin
-			a:=b;
-			while (x[12] < (x[13]+x[14]))
-			do
-			x[12]:=x[12]+1;
-		end
-	;
-	begin
-	end;
-
-	if (a > b)  then
-		begin
-			while c
-			do
-			a:=a+1;
-		end
-	;
-
-end.
+! CONTEXTO 3 - T5 válido, T6 erro, T8 erro
+program p1; 
+	var a: array [10 .. 5] of boolean;
+	var b: boolean;
+    begin 
+		while a[10>5] 
+		do
+			b := b
+		;
+    end
+.

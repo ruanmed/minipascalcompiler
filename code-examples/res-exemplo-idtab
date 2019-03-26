@@ -1,0 +1,7 @@
+---> Tabela de Identificação - INÍCIO
+n	 nível	 identificador	 utilizado	 atributo
+0000	 0	 p1		 false		 frontEnd.AST.ProgramaNode@7c75222b
+0001	 0	 a		 true		 frontEnd.AST.DeclaraçãoDeVariávelNode@4c203ea1
+0002	 0	 b		 true		 frontEnd.AST.DeclaraçãoDeVariávelNode@27f674d
+
+<--- Tabela de Identificação - FIM

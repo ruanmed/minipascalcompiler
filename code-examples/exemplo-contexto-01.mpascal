@@ -1,14 +1,8 @@
-! CONTEXTO 1 - TESTE SINTAXE VÁLIDA - CONTEXTO INVÁLIDO
-program programa1; 
+! CONTEXTO 1 - E1,E2,E3 erro
+program p1; 
+	var a, a: integer;
     begin 
-		if 2 > 1 
-		then 
-		begin
-			x := 3;
-			x := x *2;
-		end
-		else 
-			y := 2
+		y := 2
 		;
     end
 .
